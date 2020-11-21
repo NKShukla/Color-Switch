@@ -33,31 +33,31 @@ public class RectangleObstacle extends Obstacle{
 
             animation[i][0] = new Timeline(
                     new KeyFrame(Duration.ZERO, new KeyValue(lines[i].startXProperty(), lines[i].getStartX(), Interpolator.LINEAR)),
-//                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].startXProperty(), lines[(i+1)%4].getStartX(), Interpolator.LINEAR)),
-//                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].startXProperty(), lines[(i+2)%4].getStartX(), Interpolator.LINEAR)),
-                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].startXProperty(), lines[(i+3)%4].getStartX(), Interpolator.LINEAR))
-//                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].startXProperty(), lines[i].getStartX(), Interpolator.LINEAR))
+                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].startXProperty(), lines[(i+1)%4].getStartX(), Interpolator.LINEAR)),
+                    new KeyFrame(Duration.seconds(2*dur), new KeyValue(lines[i].startXProperty(), lines[(i+2)%4].getStartX(), Interpolator.LINEAR)),
+                    new KeyFrame(Duration.seconds(3*dur), new KeyValue(lines[i].startXProperty(), lines[(i+3)%4].getStartX(), Interpolator.LINEAR)),
+                    new KeyFrame(Duration.seconds(4*dur), new KeyValue(lines[i].startXProperty(), lines[i].getStartX(), Interpolator.LINEAR))
             );
             animation[i][1] = new Timeline(
                     new KeyFrame(Duration.ZERO, new KeyValue(lines[i].startYProperty(), lines[i].getStartY(), Interpolator.LINEAR)),
-//                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].startYProperty(), lines[(i+1)%4].getStartY(), Interpolator.LINEAR)),
-//                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].startYProperty(), lines[(i+2)%4].getStartY(), Interpolator.LINEAR)),
-                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].startYProperty(), lines[(i+3)%4].getStartY(), Interpolator.LINEAR))
-//                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].startYProperty(), lines[i].getStartY(), Interpolator.LINEAR))
+                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].startYProperty(), lines[(i+1)%4].getStartY(), Interpolator.LINEAR)),
+                    new KeyFrame(Duration.seconds(2*dur), new KeyValue(lines[i].startYProperty(), lines[(i+2)%4].getStartY(), Interpolator.LINEAR)),
+                    new KeyFrame(Duration.seconds(3*dur), new KeyValue(lines[i].startYProperty(), lines[(i+3)%4].getStartY(), Interpolator.LINEAR)),
+                    new KeyFrame(Duration.seconds(4*dur), new KeyValue(lines[i].startYProperty(), lines[i].getStartY(), Interpolator.LINEAR))
             );
             animation[i][2] = new Timeline(
                     new KeyFrame(Duration.ZERO, new KeyValue(lines[i].endXProperty(), lines[i].getEndX(), Interpolator.LINEAR)),
-//                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].endXProperty(), lines[(i+1)%4].getEndX(), Interpolator.LINEAR)),
-//                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].endXProperty(), lines[(i+2)%4].getEndX(), Interpolator.LINEAR)),
-                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].endXProperty(), lines[(i+3)%4].getEndX(), Interpolator.LINEAR))
-//                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].endXProperty(), lines[i].getEndX(), Interpolator.LINEAR))
+                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].endXProperty(), lines[(i+1)%4].getEndX(), Interpolator.LINEAR)),
+                    new KeyFrame(Duration.seconds(2*dur), new KeyValue(lines[i].endXProperty(), lines[(i+2)%4].getEndX(), Interpolator.LINEAR)),
+                    new KeyFrame(Duration.seconds(3*dur), new KeyValue(lines[i].endXProperty(), lines[(i+3)%4].getEndX(), Interpolator.LINEAR)),
+                    new KeyFrame(Duration.seconds(4*dur), new KeyValue(lines[i].endXProperty(), lines[i].getEndX(), Interpolator.LINEAR))
             );
             animation[i][3] = new Timeline(
-//                    new KeyFrame(Duration.ZERO, new KeyValue(lines[i].endXProperty(), lines[i].getEndY(), Interpolator.LINEAR)),
-//                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].endYProperty(), lines[(i+1)%4].getEndY(), Interpolator.LINEAR)),
-//                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].endYProperty(), lines[(i+2)%4].getEndY(), Interpolator.LINEAR)),
-                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].endYProperty(), lines[(i+3)%4].getEndY(), Interpolator.LINEAR))
-//                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].endYProperty(), lines[i].getEndY(), Interpolator.LINEAR))
+                    new KeyFrame(Duration.ZERO, new KeyValue(lines[i].endXProperty(), lines[i].getEndY(), Interpolator.LINEAR)),
+                    new KeyFrame(Duration.seconds(dur), new KeyValue(lines[i].endYProperty(), lines[(i+1)%4].getEndY(), Interpolator.LINEAR)),
+                    new KeyFrame(Duration.seconds(2*dur), new KeyValue(lines[i].endYProperty(), lines[(i+2)%4].getEndY(), Interpolator.LINEAR)),
+                    new KeyFrame(Duration.seconds(3*dur), new KeyValue(lines[i].endYProperty(), lines[(i+3)%4].getEndY(), Interpolator.LINEAR)),
+                    new KeyFrame(Duration.seconds(4*dur), new KeyValue(lines[i].endYProperty(), lines[i].getEndY(), Interpolator.LINEAR))
             );
             animation[i][0].setCycleCount(Animation.INDEFINITE);
             animation[i][1].setCycleCount(Animation.INDEFINITE);

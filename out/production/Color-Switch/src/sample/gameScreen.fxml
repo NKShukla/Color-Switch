@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootAnchor" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.GameScreen">
+   <children>
+      <ImageView fitHeight="506.0" fitWidth="500.0" onMouseClicked="#jump" pickOnBounds="true">
+         <image>
+            <Image url="@Images/bg.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="pauseImage" fitHeight="62.0" fitWidth="64.0" layoutX="416.0" layoutY="411.0" onMouseClicked="#pauseGame" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/pause.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="scoreTitle" layoutX="21.0" layoutY="14.0" prefHeight="62.0" prefWidth="100.0" text="SCORE:" textFill="#f5f70f">
+         <font>
+            <Font name="Cambria Italic" size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="scoreValue" layoutX="121.0" layoutY="14.0" prefHeight="55.0" prefWidth="64.0" text="0" textFill="#f5f70f">
+         <font>
+            <Font name="Cambria Italic" size="40.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

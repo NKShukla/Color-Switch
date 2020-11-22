@@ -1,6 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: BLACK; -fx-border-color: FFFFF0;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.HomeScreen" />
+<AnchorPane fx:id="rootAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.HomeScreen">
+   <effect>
+      <Glow />
+   </effect>
+   <children>
+      <ImageView fx:id="bgImage" fitHeight="500.0" fitWidth="500.0" pickOnBounds="true">
+         <image>
+            <Image url="@Images/bg.jpg" />
+         </image>
+         <effect>
+            <InnerShadow height="255.0" radius="127.0" width="255.0" />
+         </effect>
+      </ImageView>
+      <Label fx:id="title1" layoutX="76.0" layoutY="32.0" prefHeight="70.0" prefWidth="198.0" text="COLOR">
+         <font>
+            <Font name="Gabriola" size="74.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#6600ff" />
+                  <Stop color="BLACK" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill></Label>
+      <Label fx:id="title2" layoutX="153.0" layoutY="77.0" prefHeight="91.0" prefWidth="215.0" text="SWITCH">
+         <font>
+            <Font name="Gabriola" size="74.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#6600ff" />
+                  <Stop color="BLACK" offset="0.9961832061068702" />
+                  <Stop color="BLACK" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <ImageView fx:id="newImage" fitHeight="82.0" fitWidth="642.0" layoutX="158.0" layoutY="253.0" onMouseClicked="#newGame" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/new.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="resumeImage" fitHeight="91.0" fitWidth="82.0" layoutX="261.0" layoutY="253.0" onMouseClicked="#resumeGame" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/resume.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="exitImage" fitHeight="100.0" fitWidth="119.0" layoutX="379.0" layoutY="386.0" onMouseClicked="#exitGame" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/exit.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="leaderBoardImage" fitHeight="82.0" fitWidth="72.0" layoutX="14.0" layoutY="406.0" onMouseClicked="#showLeaderBoard" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/trophy.png" />
+         </image></ImageView>
+      <ImageView fx:id="settingImage" fitHeight="47.0" fitWidth="52.0" layoutX="319.0" layoutY="9.0" onMouseClicked="#settings" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/setting.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="helpImage" fitHeight="51.0" fitWidth="65.0" layoutX="379.0" layoutY="7.0" onMouseClicked="#help" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/help.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="shareImage" fitHeight="50.0" fitWidth="61.0" layoutX="436.0" layoutY="8.0" onMouseClicked="#share" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/share.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

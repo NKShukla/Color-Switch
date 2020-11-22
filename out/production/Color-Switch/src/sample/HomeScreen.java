@@ -1,36 +1,102 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.HashMap;
 
-public class HomeScreen extends Application implements Serializable {
+public class HomeScreen extends Application {
     private Player currentPlayer;
     private HashMap<String, Player> playerList;
+    @FXML
+    AnchorPane rootAnchor;
+    @FXML
+    Label title1, title2, nameLabel;
+    @FXML
+    ImageView bgImage, newImage, resumeImage, exitImage, leaderBoardImage, settingImage, helpImage, shareImage, backImage;
+    @FXML
+    Button submitBtn;
+    @FXML
+    TextField nameTextField;
 
-    public void newGame() {
+    public void newGame() throws IOException {
         System.out.println("New Game!");
+
+        Parent root = FXMLLoader.load(getClass().getResource("playerScreen.fxml"));
+        Scene scene = new Scene(root);
+
+        Stage playerStage = new Stage();
+        playerStage.setTitle("COLOR SWITCH");
+        playerStage.initStyle(StageStyle.UTILITY);
+        playerStage.initModality(Modality.APPLICATION_MODAL);
+        playerStage.setScene(scene);
+        playerStage.setResizable(false);
+        playerStage.show();
     }
 
-    public void resumeGame() {
+    public void resumeGame() throws IOException {
         System.out.println("Resume Game!");
+        Parent root = FXMLLoader.load(getClass().getResource("playerScreen.fxml"));
+        Scene scene = new Scene(root);
+
+        Stage playerStage = new Stage();
+        playerStage.setTitle("COLOR SWITCH");
+        playerStage.initStyle(StageStyle.UTILITY);
+        playerStage.initModality(Modality.APPLICATION_MODAL);
+        playerStage.setScene(scene);
+        playerStage.setResizable(false);
+        playerStage.show();
     }
 
-    public void exitGame() {
+    public void exitGame() throws IOException {
+        serialise();
         System.out.println("Exit Game!");
+        Platform.exit();
+    }
+
+    public void showLeaderBoard() {
+        System.out.println("Leader Board!");
+    }
+
+    public void settings() {
+        System.out.println("Settings!");
+    }
+
+    public void help() {
+        System.out.println("Help!");
+    }
+
+    public void share() {
+        System.out.println("Shared!");
+    }
+
+    public void choosePlayer() throws IOException {
+        System.out.println("Submitted!");
+        Stage playerScreen = (Stage)nameTextField.getScene().getWindow();
+        String name = nameTextField.getText();
+        playerScreen.close();
+        currentPlayer = new Player(name);
     }
 
     public static void serialise() throws IOException{
-
+        System.out.println("Serialise!");
     }
 
     public static void deserialise() {
-        System.out.println("Deserialised!!");
+        System.out.println("Deserialised!");
     }
 
     public static void main(String[] args) {
@@ -41,42 +107,11 @@ public class HomeScreen extends Application implements Serializable {
     public void start(Stage primaryStage) throws Exception{
         deserialise();
 
-        //Parent root = FXMLLoader.load(getClass().getResource("homeScreen.fxml"));
-        /*Testing obstacles*/
-        AnchorPane root = new AnchorPane();
+        Parent root = FXMLLoader.load(getClass().getResource("homeScreen.fxml"));
+        Scene scene = new Scene(root);
 
-        CircleObstacle obstacle1 = new CircleObstacle(new float[]{100.0f,100.0f}, new float[]{50.0f}, 2.0, 0.0);
-        obstacle1.move();
-
-        RectangleObstacle obstacle2 = new RectangleObstacle(new float[]{300.0f, 100.0f}, new float[]{50.0f}, 2.0, 0.0);
-        obstacle2.move();
-
-        EllipseObstacle obstacle3 = new EllipseObstacle(new float[]{100.0f,300.0f}, new float[]{50.0f, 25.0f}, 2.0, 0.0);
-        obstacle3.move();
-
-        HexagonObstacle obstacle4 = new HexagonObstacle(new float[]{300.0f, 300.0f}, new float[]{50.0f}, 2.0, 0.0);
-        obstacle4.move();
-
-        OneDLineObstacle obstacle5 = new OneDLineObstacle(new float[]{200.0f, 200.0f}, new float[]{25.0f}, 2.0, 0.0);
-        obstacle5.move();
-
-        TwoDLineObstacle obstacle6 = new TwoDLineObstacle(new float[]{100.0f, 400.0f}, new float[]{25.0f}, 2.0, 0.0);
-        obstacle6.move();
-
-        OctagonObstacle obstacle7 = new OctagonObstacle(new float[]{300.0f, 450.0f}, new float[]{100.0f}, 2.0, 0.0);
-        obstacle7.move();
-
-        root.getChildren().addAll(obstacle1.getParts());
-        root.getChildren().addAll(obstacle2.getParts());
-        root.getChildren().addAll(obstacle3.getParts());
-        root.getChildren().addAll(obstacle4.getParts());
-        root.getChildren().addAll(obstacle5.getParts());
-        root.getChildren().addAll(obstacle6.getParts());
-        root.getChildren().addAll(obstacle7.getParts());
-
-        Scene scene = new Scene(root, 500, 600);
-
-        primaryStage.setTitle("Color Switch");
+        primaryStage.setTitle("COLOR SWITCH");
+        primaryStage.initStyle(StageStyle.UTILITY);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();

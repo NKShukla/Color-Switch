@@ -1,5 +1,6 @@
 package sample;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 public class Player implements Serializable {
@@ -7,8 +8,9 @@ public class Player implements Serializable {
     private GameScreen gameScreen;
     private long score;
 
-    Player(String name) {
+    Player(String name) throws IOException {
         this.NAME = name;
+        //gameScreen = new GameScreen();
     }
 
     public String getNAME() {

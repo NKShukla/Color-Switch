@@ -1,11 +1,12 @@
 package sample;
 
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 
-abstract public class Obstacle extends GameElements{
+abstract public class Obstacle extends GameElements {
     private double duration;
     private double angle;
-    protected final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
+    protected final Color[] colors = new Color[]{Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
 
     public double getDuration() {
         return duration;
@@ -19,5 +20,7 @@ abstract public class Obstacle extends GameElements{
         this.duration = d;
     }
 
-    abstract public void move();
+    public abstract void move();
+
+    public abstract Node[] getParts();
 }

@@ -10,7 +10,8 @@ public class Player implements Serializable {
 
     Player(String name) throws IOException {
         this.NAME = name;
-        //gameScreen = new GameScreen();
+        gameScreen = new GameScreen();
+        score = 0;
     }
 
     public String getNAME() {
@@ -25,8 +26,8 @@ public class Player implements Serializable {
         return score;
     }
 
-    public void newGame() {
-
+    public void newGame() throws IOException {
+        gameScreen = new GameScreen();
     }
 
     public void pauseGame() {

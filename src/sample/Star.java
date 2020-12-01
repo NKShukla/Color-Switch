@@ -1,16 +1,28 @@
 package sample;
 
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class Star extends GameElements implements Animation{
     private int point;
     protected final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
-    private Circle ball;
 
-    Star(float[] pos, float[] dim, int p) {
-        ball = new Circle(pos[0], pos[1], dim[0]);
-        ball.setFill(Color.YELLOW);
+    Image image;
+    ImageView iv1;
+
+    Star(float[] pos, float[] dim, int p) throws FileNotFoundException {
+        image = new Image(new FileInputStream("C:\\Users\\hp\\IdeaProjects\\Color-Switch\\src\\sample\\Images\\star.png"), 25, 25, false, false);
+        iv1 = new ImageView();
+        iv1.setLayoutX(pos[0]);
+        iv1.setLayoutY(pos[1]);
+//        iv1.setLayoutX(235);
+//        iv1.setLayoutY(135);
+        iv1.setImage(image);
         this.point = p;
     }
 
@@ -18,8 +30,8 @@ public class Star extends GameElements implements Animation{
         return point;
     }
 
-    public Circle getBall() {
-        return ball;
+    public Node getStar() {
+        return iv1;
     }
 
     public void setPoint(int point) {

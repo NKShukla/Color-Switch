@@ -33,4 +33,8 @@ public class Player implements Serializable {
     public void pauseGame() {
 
     }
+
+    public void increaseScore() {
+        score++;
+    }
 }

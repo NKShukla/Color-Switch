@@ -18,7 +18,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class PlayerController {
+public class
+PlayerController extends  HomeScreen {
     @FXML
     ImageView backImage;
     @FXML
@@ -91,8 +92,33 @@ public class PlayerController {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 ball.setCenterY(ball.getCenterY() - 20);
-                ball.getBall().setFill(colors[colorSwitchers.get(0).pickColor()]);
-                colorSwitchers.get(0).disappear();
+
+                while(colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && colorSwitchers.get(0).getIntersected() == false) {
+
+                    colorSwitchers.get(0).disappear();
+
+                    colorSwitchers.get(0).setIntersected(true);
+
+                    Random rand = new Random();
+                    int index = rand.nextInt(4);
+
+                    ball.getBall().setFill(colors[index]);
+                }
+
+                while(ball.getBall().getBoundsInParent().intersects(stars.get(0).getStar().getBoundsInParent()) && stars.get(0).getIntersected() == false) {
+
+                    stars.get(0).disappear();
+
+                    stars.get(0).setIntersected(true);
+
+                    System.out.println("INTERSECTED WITH A STAR");
+
+                    System.out.println(currentPlayer.getScore());
+
+                    currentPlayer.increaseScore();
+
+                    System.out.println(currentPlayer.getScore());
+                }
             }
         });
 

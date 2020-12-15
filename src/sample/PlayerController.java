@@ -1,7 +1,6 @@
 package sample;
 
 import javafx.animation.AnimationTimer;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -90,42 +89,34 @@ PlayerController extends  HomeScreen {
         ArrayList<ColorSwitcher> colorSwitchers = gameScreen.getColorSwitchers();
         ArrayList<Star> stars = gameScreen.getStars();
 
-        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                ball.setCenterY(ball.getCenterY() - 20);
-                ball.getBall().setFill(Color.RED);
-                //ball.getBall().setFill(colors[colorSwitchers.get(0).pickColor()]);
-                colorSwitchers.get(0).disappear();
-                ball.getBall().setFill(colors[colorSwitchers.get(0).pickColor()]);
+        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
+            ball.setCenterY(ball.getCenterY() - 20);
+
+            while(colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && !colorSwitchers.get(0).getIntersected()) {
+
                 colorSwitchers.get(0).disappear();
 
-                while(colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && !colorSwitchers.get(0).getIntersected()) {
+                colorSwitchers.get(0).setIntersected(true);
 
-                    colorSwitchers.get(0).disappear();
+                Random rand1 = new Random();
+                int index = rand1.nextInt(4);
 
-                    colorSwitchers.get(0).setIntersected(true);
+                ball.getBall().setFill(colors[index]);
+            }
 
-                    Random rand = new Random();
-                    int index = rand.nextInt(4);
+            while(ball.getBall().getBoundsInParent().intersects(stars.get(0).getStar().getBoundsInParent()) && !stars.get(0).getIntersected()) {
 
-                    ball.getBall().setFill(colors[index]);
-                }
+                stars.get(0).disappear();
 
-                while(ball.getBall().getBoundsInParent().intersects(stars.get(0).getStar().getBoundsInParent()) && !stars.get(0).getIntersected()) {
+                stars.get(0).setIntersected(true);
 
-                    stars.get(0).disappear();
+                System.out.println("INTERSECTED WITH A STAR");
 
-                    stars.get(0).setIntersected(true);
+                System.out.println(currentPlayer.getScore());
 
-                    System.out.println("INTERSECTED WITH A STAR");
+                currentPlayer.increaseScore();
 
-                    System.out.println(currentPlayer.getScore());
-
-                    currentPlayer.increaseScore();
-
-                    System.out.println(currentPlayer.getScore());
-                }
+                System.out.println(currentPlayer.getScore());
             }
         });
 
@@ -147,7 +138,9 @@ PlayerController extends  HomeScreen {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    stop();
+                    finally {
+                        stop();
+                    }
                 }
             }
         };

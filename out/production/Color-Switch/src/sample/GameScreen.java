@@ -15,13 +15,12 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class GameScreen implements Serializable {
     private int starScore;
-    private Level currentLevel;
-    private int[] SCREEN_SIZE;
-    private Ball ball;
+    private final Level currentLevel;
+    private final int[] SCREEN_SIZE;
+    private final Ball ball;
     private final ArrayList<Obstacle> obstacleList = new ArrayList<>();
     private final ArrayList<ColorSwitcher> colorSwitchers = new ArrayList<>();
     private final ArrayList<Star> stars = new ArrayList<>();
@@ -54,14 +53,12 @@ public class GameScreen implements Serializable {
 
         Timeline tl = new Timeline();
         tl.setCycleCount(javafx.animation.Animation.INDEFINITE);
-        KeyFrame moveBall = new KeyFrame(Duration.seconds(0.1), new EventHandler<ActionEvent>() {
+        KeyFrame moveBall = new KeyFrame(Duration.seconds(0.1), event -> {
 
-            public void handle(ActionEvent event) {
-
-                double xMin = ball.getBall().getBoundsInParent().getMinX();
-                double yMin = ball.getBall().getBoundsInParent().getMinY();
-                double xMax = ball.getBall().getBoundsInParent().getMaxX();
-                double yMax = ball.getBall().getBoundsInParent().getMaxY();
+            double xMin = ball.getBall().getBoundsInParent().getMinX();
+            double yMin = ball.getBall().getBoundsInParent().getMinY();
+            double xMax = ball.getBall().getBoundsInParent().getMaxX();
+            double yMax = ball.getBall().getBoundsInParent().getMaxY();
 
 //                        if (xMin < 0 || xMax > scene.getWidth()) {
 //                            dx = dx * -1;
@@ -70,8 +67,7 @@ public class GameScreen implements Serializable {
 //                            dy = dy * -1;
 //                        }
 
-                ball.setCenterY(ball.getCenterY() + 3);
-            }
+            ball.setCenterY(ball.getCenterY() + 3);
         });
 
         tl.getKeyFrames().add(moveBall);

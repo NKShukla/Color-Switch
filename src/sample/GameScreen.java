@@ -4,6 +4,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -115,7 +120,16 @@ public class GameScreen implements Serializable {
 
     }
 
-    public void loseGame() {
+    public void loseGame() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("gameOverScreen.fxml"));
+        Scene scene = new Scene(root);
 
+        Stage gameOverStage = new Stage();
+        gameOverStage.setTitle("COLOR SWITCH");
+        //gameOverStage.initStyle(StageStyle.UTILITY);
+        gameOverStage.initModality(Modality.APPLICATION_MODAL);
+        gameOverStage.setScene(scene);
+        gameOverStage.setResizable(false);
+        gameOverStage.show();
     }
 }

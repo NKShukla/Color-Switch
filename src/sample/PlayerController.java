@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,8 +30,9 @@ public class PlayerController {
     TextField nameTextField;
 
     protected final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
+    public static volatile boolean collision = false;
 
-    public void addPlayer() throws IOException {
+    public void addPlayer() throws IOException, InterruptedException {
         errorLabel.setVisible(false);
         System.out.println("Submitted!");
         Stage playerScreen = (Stage) nameTextField.getScene().getWindow();
@@ -69,7 +71,7 @@ public class PlayerController {
         playerScreen.close();
     }
 
-    public void continueGame() throws IOException {
+    public void continueGame() throws IOException, InterruptedException {
         GameScreen gameScreen = HomeScreen.currentPlayer.getScreen();
         AnchorPane rootAnchor = FXMLLoader.load(getClass().getResource("gameScreen.fxml"));
         Scene scene = new Scene(rootAnchor);
@@ -91,7 +93,8 @@ public class PlayerController {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 ball.setCenterY(ball.getCenterY() - 20);
-                ball.getBall().setFill(colors[colorSwitchers.get(0).pickColor()]);
+                ball.getBall().setFill(Color.RED);
+                //ball.getBall().setFill(colors[colorSwitchers.get(0).pickColor()]);
                 colorSwitchers.get(0).disappear();
             }
         });
@@ -102,13 +105,27 @@ public class PlayerController {
         rootAnchor.getChildren().add(ball.getBall());
         rootAnchor.getChildren().add(colorSwitchers.get(0).getBall());
         rootAnchor.getChildren().add(stars.get(0).getStar());
-        Stage playerScreen = (Stage) nameTextField.getScene().getWindow();
-        playerScreen.close();
+
+        AnimationTimer gameTimer = new GameTimer(nextObstacle, ball);
+        gameTimer.start();
+        AnimationTimer losingTimer = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                if(collision) {
+                    try {
+                        gameScreen.loseGame();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    stop();
+                }
+            }
+        };
+        losingTimer.start();
     }
 
-    public void restartGame() throws IOException {
+    public void restartGame() throws IOException, InterruptedException {
         HomeScreen.currentPlayer.newGame();
         continueGame();
     }
-
 }

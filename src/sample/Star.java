@@ -19,8 +19,6 @@ public class Star extends GameElements implements Animation{
         iv1 = new ImageView();
         iv1.setLayoutX(pos[0]);
         iv1.setLayoutY(pos[1]);
-//        iv1.setLayoutX(235);
-//        iv1.setLayoutY(135);
         iv1.setImage(image);
         this.point = p;
     }

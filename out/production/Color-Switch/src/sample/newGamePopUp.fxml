@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="100.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.PlayerController">
    <children>
       <ImageView fitHeight="159.0" fitWidth="300.0" pickOnBounds="true">
@@ -19,12 +18,12 @@
             <Font name="Corbel" size="15.0" />
          </font>
       </Label>
-      <ImageView fitHeight="47.0" fitWidth="68.0" layoutX="74.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="47.0" fitWidth="68.0" layoutX="74.0" layoutY="78.0" onMouseClicked="#continueGame" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/yes.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="47.0" fitWidth="47.0" layoutX="158.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="47.0" fitWidth="47.0" layoutX="158.0" layoutY="78.0" onMouseClicked="#restartGame" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/no.png" />
          </image>

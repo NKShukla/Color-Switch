@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class
-PlayerController extends  HomeScreen {
+    PlayerController extends  HomeScreen {
     @FXML
     ImageView backImage;
     @FXML
@@ -89,10 +89,37 @@ PlayerController extends  HomeScreen {
         ArrayList<ColorSwitcher> colorSwitchers = gameScreen.getColorSwitchers();
         ArrayList<Star> stars = gameScreen.getStars();
 
+<<<<<<< HEAD
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
             ball.setCenterY(ball.getCenterY() - 20);
+||||||| 8440bad
+        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                ball.setCenterY(ball.getCenterY() - 20);
+                ball.getBall().setFill(Color.RED);
+                //ball.getBall().setFill(colors[colorSwitchers.get(0).pickColor()]);
+                colorSwitchers.get(0).disappear();
+                ball.getBall().setFill(colors[colorSwitchers.get(0).pickColor()]);
+                colorSwitchers.get(0).disappear();
+=======
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+>>>>>>> a14bf0fc748915c322dbebb7f13587cda43d1270
 
+<<<<<<< HEAD
             while(colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && !colorSwitchers.get(0).getIntersected()) {
+||||||| 8440bad
+                while(colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && !colorSwitchers.get(0).getIntersected()) {
+=======
+                switch (event.getCode()) {
+
+                case SPACE: ball.setCenterY(ball.getCenterY() - 20);
+                }
+
+                while (colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && colorSwitchers.get(0).getIntersected() == false) {
+>>>>>>> a14bf0fc748915c322dbebb7f13587cda43d1270
 
                 colorSwitchers.get(0).disappear();
 
@@ -104,7 +131,13 @@ PlayerController extends  HomeScreen {
                 ball.getBall().setFill(colors[index]);
             }
 
+<<<<<<< HEAD
             while(ball.getBall().getBoundsInParent().intersects(stars.get(0).getStar().getBoundsInParent()) && !stars.get(0).getIntersected()) {
+||||||| 8440bad
+                while(ball.getBall().getBoundsInParent().intersects(stars.get(0).getStar().getBoundsInParent()) && !stars.get(0).getIntersected()) {
+=======
+                while (ball.getBall().getBoundsInParent().intersects(stars.get(0).getStar().getBoundsInParent()) && stars.get(0).getIntersected() == false) {
+>>>>>>> a14bf0fc748915c322dbebb7f13587cda43d1270
 
                 stars.get(0).disappear();
 
@@ -132,7 +165,7 @@ PlayerController extends  HomeScreen {
         AnimationTimer losingTimer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                if(collision) {
+                if (collision) {
                     try {
                         gameScreen.loseGame();
                     } catch (IOException e) {

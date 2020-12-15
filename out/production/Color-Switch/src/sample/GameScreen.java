@@ -9,20 +9,23 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameScreen implements Serializable {
     private int starScore;
     private Level currentLevel;
-    private final int[] SCREEN_SIZE;
-    private final Ball ball;
+    private int[] SCREEN_SIZE;
+    private Ball ball;
     private final ArrayList<Obstacle> obstacleList = new ArrayList<>();
     private final ArrayList<ColorSwitcher> colorSwitchers = new ArrayList<>();
     private final ArrayList<Star> stars = new ArrayList<>();
+    protected final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
 
     GameScreen() throws IOException {
         SCREEN_SIZE = new int[]{500, 500}; // will use it later or maybe not
@@ -66,15 +69,6 @@ public class GameScreen implements Serializable {
 //                        if (yMin < 0 || yMax > scene.getHeight()) {
 //                            dy = dy * -1;
 //                        }
-
-                //ball.getBall().setTranslateY(ball.getBall().getTranslateY() + 3);
-
-//                scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-//                    @Override
-//                    public void handle(MouseEvent mouseEvent) {
-//                        ball.setCenterY(ball.getCenterY() - 1);
-//                    }
-//                });
 
                 ball.setCenterY(ball.getCenterY() + 3);
             }

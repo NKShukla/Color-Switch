@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 public class Star extends GameElements implements Animation{
     private int point;
     protected final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
+    private boolean intersected = false;
 
     Image image;
     ImageView iv1;
@@ -31,12 +32,24 @@ public class Star extends GameElements implements Animation{
         return iv1;
     }
 
+    public Image getImage() {
+        return image;
+    }
+
     public void setPoint(int point) {
         this.point = point;
     }
 
+    public boolean getIntersected() {
+        return intersected;
+    }
+
+    public void setIntersected(boolean status) {
+        intersected = status;
+    }
+
     @Override
     public void disappear() {
-
+        getStar().setVisible(false);
     }
 }

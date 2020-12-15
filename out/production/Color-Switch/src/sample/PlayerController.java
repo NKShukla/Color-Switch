@@ -19,7 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class PlayerController {
+public class
+PlayerController extends  HomeScreen {
     @FXML
     ImageView backImage;
     @FXML
@@ -96,6 +97,35 @@ public class PlayerController {
                 ball.getBall().setFill(Color.RED);
                 //ball.getBall().setFill(colors[colorSwitchers.get(0).pickColor()]);
                 colorSwitchers.get(0).disappear();
+                ball.getBall().setFill(colors[colorSwitchers.get(0).pickColor()]);
+                colorSwitchers.get(0).disappear();
+
+                while(colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && colorSwitchers.get(0).getIntersected() == false) {
+
+                    colorSwitchers.get(0).disappear();
+
+                    colorSwitchers.get(0).setIntersected(true);
+
+                    Random rand = new Random();
+                    int index = rand.nextInt(4);
+
+                    ball.getBall().setFill(colors[index]);
+                }
+
+                while(ball.getBall().getBoundsInParent().intersects(stars.get(0).getStar().getBoundsInParent()) && stars.get(0).getIntersected() == false) {
+
+                    stars.get(0).disappear();
+
+                    stars.get(0).setIntersected(true);
+
+                    System.out.println("INTERSECTED WITH A STAR");
+
+                    System.out.println(currentPlayer.getScore());
+
+                    currentPlayer.increaseScore();
+
+                    System.out.println(currentPlayer.getScore());
+                }
             }
         });
 
@@ -108,7 +138,7 @@ public class PlayerController {
 
         AnimationTimer gameTimer = new GameTimer(nextObstacle, ball);
         gameTimer.start();
-        new AnimationTimer() {
+        AnimationTimer losingTimer = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 if(collision) {
@@ -120,7 +150,8 @@ public class PlayerController {
                     stop();
                 }
             }
-        }.start();
+        };
+        losingTimer.start();
     }
 
     public void restartGame() throws IOException, InterruptedException {

@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -89,38 +90,15 @@ public class
         ArrayList<ColorSwitcher> colorSwitchers = gameScreen.getColorSwitchers();
         ArrayList<Star> stars = gameScreen.getStars();
 
-<<<<<<< HEAD
-        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
-            ball.setCenterY(ball.getCenterY() - 20);
-||||||| 8440bad
-        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                ball.setCenterY(ball.getCenterY() - 20);
-                ball.getBall().setFill(Color.RED);
-                //ball.getBall().setFill(colors[colorSwitchers.get(0).pickColor()]);
-                colorSwitchers.get(0).disappear();
-                ball.getBall().setFill(colors[colorSwitchers.get(0).pickColor()]);
-                colorSwitchers.get(0).disappear();
-=======
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
->>>>>>> a14bf0fc748915c322dbebb7f13587cda43d1270
-
-<<<<<<< HEAD
-            while(colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && !colorSwitchers.get(0).getIntersected()) {
-||||||| 8440bad
-                while(colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && !colorSwitchers.get(0).getIntersected()) {
-=======
                 switch (event.getCode()) {
 
-                case SPACE: ball.setCenterY(ball.getCenterY() - 20);
+                    case SPACE:
+                        ball.setCenterY(ball.getCenterY() - 20);
                 }
-
-                while (colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && colorSwitchers.get(0).getIntersected() == false) {
->>>>>>> a14bf0fc748915c322dbebb7f13587cda43d1270
-
+            while(colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && !colorSwitchers.get(0).getIntersected()) {
                 colorSwitchers.get(0).disappear();
 
                 colorSwitchers.get(0).setIntersected(true);
@@ -131,13 +109,7 @@ public class
                 ball.getBall().setFill(colors[index]);
             }
 
-<<<<<<< HEAD
             while(ball.getBall().getBoundsInParent().intersects(stars.get(0).getStar().getBoundsInParent()) && !stars.get(0).getIntersected()) {
-||||||| 8440bad
-                while(ball.getBall().getBoundsInParent().intersects(stars.get(0).getStar().getBoundsInParent()) && !stars.get(0).getIntersected()) {
-=======
-                while (ball.getBall().getBoundsInParent().intersects(stars.get(0).getStar().getBoundsInParent()) && stars.get(0).getIntersected() == false) {
->>>>>>> a14bf0fc748915c322dbebb7f13587cda43d1270
 
                 stars.get(0).disappear();
 
@@ -151,7 +123,7 @@ public class
 
                 System.out.println(currentPlayer.getScore());
             }
-        });
+        }});
 
         Obstacle nextObstacle = obstacleList.get(rand.nextInt(obstacleList.size()));
         nextObstacle.move();

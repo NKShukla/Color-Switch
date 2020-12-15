@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class
-PlayerController extends  HomeScreen {
+    PlayerController extends  HomeScreen {
     @FXML
     ImageView backImage;
     @FXML
@@ -89,11 +90,15 @@ PlayerController extends  HomeScreen {
         ArrayList<ColorSwitcher> colorSwitchers = gameScreen.getColorSwitchers();
         ArrayList<Star> stars = gameScreen.getStars();
 
-        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
-            ball.setCenterY(ball.getCenterY() - 20);
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                switch (event.getCode()) {
 
+                    case SPACE:
+                        ball.setCenterY(ball.getCenterY() - 20);
+                }
             while(colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && !colorSwitchers.get(0).getIntersected()) {
-
                 colorSwitchers.get(0).disappear();
 
                 colorSwitchers.get(0).setIntersected(true);
@@ -118,7 +123,7 @@ PlayerController extends  HomeScreen {
 
                 System.out.println(currentPlayer.getScore());
             }
-        });
+        }});
 
         Obstacle nextObstacle = obstacleList.get(rand.nextInt(obstacleList.size()));
         nextObstacle.move();
@@ -132,7 +137,7 @@ PlayerController extends  HomeScreen {
         AnimationTimer losingTimer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                if(collision) {
+                if (collision) {
                     try {
                         gameScreen.loseGame();
                     } catch (IOException e) {

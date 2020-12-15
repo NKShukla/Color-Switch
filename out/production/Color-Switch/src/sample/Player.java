@@ -36,5 +36,6 @@ public class Player implements Serializable {
 
     public void increaseScore() {
         score++;
+        new GameScreenController().setScoreValue(score);
     }
 }

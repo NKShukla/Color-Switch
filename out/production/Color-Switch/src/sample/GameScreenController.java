@@ -75,4 +75,8 @@ public class GameScreenController {
         System.out.println("Ball Jumped!");
         //ball.jump();
     }
+
+    public void setScoreValue(long scoreValue) {
+        this.scoreValue.setText(Long.valueOf(scoreValue).toString());
+    }
 }

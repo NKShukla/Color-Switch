@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class
-PlayerController extends  HomeScreen {
+    PlayerController extends  HomeScreen {
     @FXML
     ImageView backImage;
     @FXML
@@ -90,17 +91,16 @@ PlayerController extends  HomeScreen {
         ArrayList<ColorSwitcher> colorSwitchers = gameScreen.getColorSwitchers();
         ArrayList<Star> stars = gameScreen.getStars();
 
-        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
-            public void handle(MouseEvent mouseEvent) {
-                ball.setCenterY(ball.getCenterY() - 20);
-                ball.getBall().setFill(Color.RED);
-                //ball.getBall().setFill(colors[colorSwitchers.get(0).pickColor()]);
-                colorSwitchers.get(0).disappear();
-                ball.getBall().setFill(colors[colorSwitchers.get(0).pickColor()]);
-                colorSwitchers.get(0).disappear();
+            public void handle(KeyEvent event) {
 
-                while(colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && colorSwitchers.get(0).getIntersected() == false) {
+                switch (event.getCode()) {
+
+                case SPACE: ball.setCenterY(ball.getCenterY() - 20);
+                }
+
+                while (colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && colorSwitchers.get(0).getIntersected() == false) {
 
                     colorSwitchers.get(0).disappear();
 
@@ -112,7 +112,7 @@ PlayerController extends  HomeScreen {
                     ball.getBall().setFill(colors[index]);
                 }
 
-                while(ball.getBall().getBoundsInParent().intersects(stars.get(0).getStar().getBoundsInParent()) && stars.get(0).getIntersected() == false) {
+                while (ball.getBall().getBoundsInParent().intersects(stars.get(0).getStar().getBoundsInParent()) && stars.get(0).getIntersected() == false) {
 
                     stars.get(0).disappear();
 
@@ -141,7 +141,7 @@ PlayerController extends  HomeScreen {
         AnimationTimer losingTimer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                if(collision) {
+                if (collision) {
                     try {
                         gameScreen.loseGame();
                     } catch (IOException e) {

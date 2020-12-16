@@ -17,7 +17,7 @@ public class GameTimer extends AnimationTimer {
     private final ArrayList<ColorSwitcher> colorSwitchers;
     private final ArrayList<Star> stars;
     private Obstacle nextObstacle, prevObstacle;
-    private final AnchorPane rootAnchor;
+    private transient final AnchorPane rootAnchor;
 
     GameTimer(GameScreen gameScreen, Obstacle nextObstacle, Obstacle prevObstacle, AnchorPane rootAnchor) {
         this.gameScreen = gameScreen;

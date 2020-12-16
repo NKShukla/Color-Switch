@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.Map;
 
 public class HomeScreen extends Application {
     public static Player currentPlayer;
@@ -77,32 +78,41 @@ public class HomeScreen extends Application {
     }
 
     public static void serialise() throws IOException {
-//        ObjectOutputStream out = null;
-//        try{
-//            out = new ObjectOutputStream (new FileOutputStream("savedData.txt"));
-//            out.writeObject(playerList);
-//            System.out.println("Serialise!");
-//        } finally {
-//            if(out != null)
-//                out.close();
-//        }
+        ObjectOutputStream out = null;
+        try{
+            out = new ObjectOutputStream (new FileOutputStream("savedData.txt"));
+            out.writeObject(playerList);
+            System.out.println("Serialise!");
+            for (Map.Entry mapElement : playerList.entrySet()) {
+                String key = (String)mapElement.getKey();
+                System.out.println(key);
+            }
+        } finally {
+            if(out != null)
+                out.close();
+        }
     }
 
     public static void deserialise() throws IOException {
-//        ObjectInputStream in = null;
-//        try {
-//            System.out.println("Deserialised!");
-//            in = new ObjectInputStream (new FileInputStream("savedData.txt"));
-//            playerList = (HashMap<String, Player>) in.readObject();
-//        }
-//        catch(ClassNotFoundException e)
-//        {
-//            e.printStackTrace();
-//        }
-//        finally {
-//            if(in != null)
-//                in.close();
-//        }
+        ObjectInputStream in = null;
+        try {
+            System.out.println("Deserialised!");
+            in = new ObjectInputStream (new FileInputStream("savedData.txt"));
+            playerList = (HashMap<String, Player>) in.readObject();
+
+            for (Map.Entry mapElement : playerList.entrySet()) {
+                String key = (String)mapElement.getKey();
+                System.out.println(key);
+            }
+        }
+        catch(ClassNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        finally {
+            if(in != null)
+                in.close();
+        }
     }
 
     public static void main(String[] args) {

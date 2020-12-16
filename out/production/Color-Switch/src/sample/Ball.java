@@ -25,7 +25,7 @@ public class Ball extends GameElements implements Animation{
         setDimensions(dim);
         JUMP_VALUE = 10; //reassign it accordingly
 
-        ball = new Circle(pos[0], pos[1], dim[0]/2);
+        ball = new Circle(pos[0], pos[1], dim[0]);
         Random rand = new Random();
         int index = rand.nextInt(4);
         ball.setFill(GameScreen.colors[index]);
@@ -48,7 +48,7 @@ public class Ball extends GameElements implements Animation{
         int colorIndex = (int)ois.readObject();
         float[] pos = getPosition();
         float[] dim = getDimensions();
-        ball = new Circle(pos[0], pos[1], dim[0]/2);
+        ball = new Circle(pos[0], pos[1], dim[0]);
         ball.setFill(GameScreen.colors[colorIndex]);
     }
 

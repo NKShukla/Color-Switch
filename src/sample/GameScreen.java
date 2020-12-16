@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
@@ -25,8 +27,9 @@ public class GameScreen implements Serializable {
     private final ArrayList<ColorSwitcher> colorSwitchers = new ArrayList<>();
     private final ArrayList<Star> stars = new ArrayList<>();
     private boolean collision = false;
-    private AnimationTimer gameTimer, losingTimer;
-    private PlayerController playerController;
+    private transient AnimationTimer gameTimer, losingTimer;
+    private transient PlayerController playerController;
+    private transient Timeline tl;
     public static final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
 
     GameScreen() throws IOException {
@@ -34,7 +37,7 @@ public class GameScreen implements Serializable {
         currentLevel = new Level(1); //will use in future
         //scoreValue.setText(Long.toString(HomeScreen.currentPlayer.getScore()));
 
-        ball = new Ball(new float[]{250, 300}, new float[]{15.0f}, 0.0, 0.0);
+        ball = new Ball(new float[]{250, 300}, new float[]{7.5f}, 0.0, 0.0);
         colorSwitchers.add(new ColorSwitcher(new float[]{250.0f, 100.0f}, new float[]{10.0f}));
         stars.add(new Star(new float[]{237.0f, -112.0f}, new float[]{25.0f}, 1));
 
@@ -54,7 +57,7 @@ public class GameScreen implements Serializable {
         obstacleList.add(obstacle6);
         obstacleList.add(obstacle7);
 
-        Timeline tl = new Timeline();
+        tl = new Timeline();
         tl.setCycleCount(javafx.animation.Animation.INDEFINITE);
         KeyFrame moveBall = new KeyFrame(Duration.seconds(0.1), event -> {
             ball.setCenterY(ball.getCenterY() + 3);
@@ -62,6 +65,43 @@ public class GameScreen implements Serializable {
 
         tl.getKeyFrames().add(moveBall);
         tl.play();
+    }
+
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+        ois.defaultReadObject();
+        tl = new Timeline();
+        tl.setCycleCount(javafx.animation.Animation.INDEFINITE);
+        KeyFrame moveBall = new KeyFrame(Duration.seconds(0.1), event -> {
+            ball.setCenterY(ball.getCenterY() + 3);
+        });
+
+        tl.getKeyFrames().add(moveBall);
+        tl.play();
+
+        //gameTimer = new GameTimer(this, nextObstacle, null, rootAnchor);
+        //gameTimer.start();
+
+        losingTimer = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                if (isCollision()) {
+                    try {
+                        loseGame();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    finally {
+                        stop();
+                    }
+                }
+            }
+        };
+        losingTimer.start();
+
     }
 
     public int getScore() {
@@ -78,6 +118,10 @@ public class GameScreen implements Serializable {
 
     public Ball getBall() {
         return ball;
+    }
+
+    public void pauseAnimation() {
+
     }
 
     public ArrayList<Obstacle> getObstaclesList() {

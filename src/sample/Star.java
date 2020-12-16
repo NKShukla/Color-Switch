@@ -3,20 +3,20 @@ package sample;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 
 import java.io.FileNotFoundException;
 
 public class Star extends GameElements implements Animation{
     private int point;
-    protected final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
     private boolean intersected = false;
 
     Image image;
     ImageView iv1;
 
     Star(float[] pos, float[] dim, int p) throws FileNotFoundException {
-        image = new Image("file:src/sample/Images/star.png", 25, 25, false, false);
+        setPosition(pos);
+        setDimensions(dim);
+        image = new Image("file:src/sample/Images/star.png", dim[0], dim[0], false, false);
         iv1 = new ImageView();
         iv1.setLayoutX(pos[0]);
         iv1.setLayoutY(pos[1]);
@@ -32,10 +32,6 @@ public class Star extends GameElements implements Animation{
         return iv1;
     }
 
-    public Image getImage() {
-        return image;
-    }
-
     public void setPoint(int point) {
         this.point = point;
     }
@@ -46,6 +42,10 @@ public class Star extends GameElements implements Animation{
 
     public void setIntersected(boolean status) {
         intersected = status;
+    }
+
+    public Star clone() {
+        return (Star) super.clone();
     }
 
     @Override

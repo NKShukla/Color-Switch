@@ -7,11 +7,12 @@ import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
 public class RectangleObstacle extends Obstacle{
-    private final Line[] lines;
-    private final Timeline[][] animation;
-    protected final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
+    private Line[] lines;
+    private Timeline[][] animation;
 
     RectangleObstacle(float[] pos, float[] dim, double dur, double xAngle) {
+        setPosition(pos);
+        setDimensions(dim);
         lines = new Line[4];
         animation = new Timeline[4][4];
 
@@ -29,7 +30,7 @@ public class RectangleObstacle extends Obstacle{
         for(int i = 0; i < 4; i++) {
             lines[i].setFill(Color.TRANSPARENT);
             lines[i].setStrokeWidth(10.0);
-            lines[i].setStroke(colors[i]);
+            lines[i].setStroke(GameScreen.colors[i]);
 
             animation[i][0] = new Timeline(
                     new KeyFrame(Duration.ZERO, new KeyValue(lines[i].startXProperty(), lines[i].getStartX(), Interpolator.LINEAR)),
@@ -64,6 +65,13 @@ public class RectangleObstacle extends Obstacle{
             animation[i][2].setCycleCount(Animation.INDEFINITE);
             animation[i][3].setCycleCount(Animation.INDEFINITE);
         }
+    }
+
+    public RectangleObstacle clone() {
+        RectangleObstacle rectangleObstacle = (RectangleObstacle) super.clone();
+        rectangleObstacle.lines = this.lines.clone();
+        rectangleObstacle.animation = this.animation.clone();
+        return rectangleObstacle;
     }
 
     public Line[] getParts() {

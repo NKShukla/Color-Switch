@@ -1,20 +1,20 @@
 package sample;
 
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameScreen implements Serializable {
     private int starScore;
@@ -24,24 +24,27 @@ public class GameScreen implements Serializable {
     private final ArrayList<Obstacle> obstacleList = new ArrayList<>();
     private final ArrayList<ColorSwitcher> colorSwitchers = new ArrayList<>();
     private final ArrayList<Star> stars = new ArrayList<>();
-    protected final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
+    private boolean collision = false;
+    private AnimationTimer gameTimer, losingTimer;
+    private PlayerController playerController;
+    public static final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
 
     GameScreen() throws IOException {
         SCREEN_SIZE = new int[]{500, 500}; // will use it later or maybe not
         currentLevel = new Level(1); //will use in future
         //scoreValue.setText(Long.toString(HomeScreen.currentPlayer.getScore()));
 
-        ball = new Ball(new float[]{250, 400}, new float[]{15.0f}, 0.0, 0.0);
-        colorSwitchers.add(new ColorSwitcher(new float[]{250.0f, 300.0f}, new float[]{10.0f}));
-        stars.add(new Star(new float[]{238.0f, 137.0f}, new float[]{10.0f}, 1));
+        ball = new Ball(new float[]{250, 300}, new float[]{15.0f}, 0.0, 0.0);
+        colorSwitchers.add(new ColorSwitcher(new float[]{250.0f, 100.0f}, new float[]{10.0f}));
+        stars.add(new Star(new float[]{237.0f, -112.0f}, new float[]{25.0f}, 1));
 
-        CircleObstacle obstacle1 = new CircleObstacle(new float[]{250.0f, 150.0f}, new float[]{50.0f}, 2.0, 0.0);
-        RectangleObstacle obstacle2 = new RectangleObstacle(new float[]{250.0f, 150.0f}, new float[]{50.0f}, 2.0, 0.0);
-        EllipseObstacle obstacle3 = new EllipseObstacle(new float[]{250.0f, 150.0f}, new float[]{50.0f, 25.0f}, 2.0, 0.0);
-        HexagonObstacle obstacle4 = new HexagonObstacle(new float[]{250.0f, 150.0f}, new float[]{50.0f}, 2.0, 0.0);
-        OneDLineObstacle obstacle5 = new OneDLineObstacle(new float[]{250.0f, 150.0f}, new float[]{25.0f}, 2.0, 0.0);
-        TwoDLineObstacle obstacle6 = new TwoDLineObstacle(new float[]{250.0f, 150.0f}, new float[]{25.0f}, 2.0, 0.0);
-        OctagonObstacle obstacle7 = new OctagonObstacle(new float[]{250.0f, 150.0f}, new float[]{100.0f}, 2.0, 0.0);
+        CircleObstacle obstacle1 = new CircleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 4.0, 0.0);
+        RectangleObstacle obstacle2 = new RectangleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 3.0, 0.0);
+        EllipseObstacle obstacle3 = new EllipseObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f, 50.0f}, 5.0, 0.0);
+        HexagonObstacle obstacle4 = new HexagonObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 2.0, 0.0);
+        OneDLineObstacle obstacle5 = new OneDLineObstacle(new float[]{250.0f, -65.0f}, new float[]{50.0f}, 3.0, 0.0);
+        TwoDLineObstacle obstacle6 = new TwoDLineObstacle(new float[]{220.0f, -100.0f}, new float[]{50.0f}, 2.0, 0.0);
+        OctagonObstacle obstacle7 = new OctagonObstacle(new float[]{250.0f, -100.0f}, new float[]{90.0f}, 1.0, 0.0);
 
         obstacleList.add(obstacle1);
         obstacleList.add(obstacle2);
@@ -54,19 +57,6 @@ public class GameScreen implements Serializable {
         Timeline tl = new Timeline();
         tl.setCycleCount(javafx.animation.Animation.INDEFINITE);
         KeyFrame moveBall = new KeyFrame(Duration.seconds(0.1), event -> {
-
-            double xMin = ball.getBall().getBoundsInParent().getMinX();
-            double yMin = ball.getBall().getBoundsInParent().getMinY();
-            double xMax = ball.getBall().getBoundsInParent().getMaxX();
-            double yMax = ball.getBall().getBoundsInParent().getMaxY();
-
-//                        if (xMin < 0 || xMax > scene.getWidth()) {
-//                            dx = dx * -1;
-//                        }
-//                        if (yMin < 0 || yMax > scene.getHeight()) {
-//                            dy = dy * -1;
-//                        }
-
             ball.setCenterY(ball.getCenterY() + 3);
         });
 
@@ -102,12 +92,54 @@ public class GameScreen implements Serializable {
         return stars;
     }
 
+    public void setCollision(boolean collision) {
+        this.collision = collision;
+    }
+
+    public void setGameTimer(AnimationTimer gameTimer) {
+        this.gameTimer = gameTimer;
+    }
+
+    public AnimationTimer getGameTimer() {
+        return gameTimer;
+    }
+
+    public void setLosingTimer(AnimationTimer losingTimer) {
+        this.losingTimer = losingTimer;
+    }
+
+    public AnimationTimer getLosingTimer() {
+        return losingTimer;
+    }
+
+    public void setPlayerController(PlayerController playerController) {
+        this.playerController = playerController;
+    }
+
+    public PlayerController getPlayerController() {
+        return playerController;
+    }
+
+    public boolean isCollision() {
+        return collision;
+    }
+
     public void updateLevel() {
 
     }
 
-    public void nextObstacle() {
-
+    public Obstacle nextObstacle() {
+        Random rand = new Random();
+        switch (rand.nextInt(7)+1) {
+            case 1: return new CircleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 4.0, 0.0);
+            case 2: return new RectangleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 3.0, 0.0);
+            case 3: return new EllipseObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f, 50.0f}, 5.0, 0.0);
+            case 4: return new HexagonObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 2.0, 0.0);
+            case 5: return new OneDLineObstacle(new float[]{250.0f, -65.0f}, new float[]{50.0f}, 3.0, 0.0);
+            case 6: return new TwoDLineObstacle(new float[]{220.0f, -100.0f}, new float[]{50.0f}, 2.0, 0.0);
+            case 7: return new OctagonObstacle(new float[]{250.0f, -100.0f}, new float[]{90.0f}, 1.0, 0.0);
+            default: return null;
+        }
     }
 
     public void loseGame() throws IOException {

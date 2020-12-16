@@ -18,20 +18,7 @@ public class GameScreenController {
     @FXML
     Label scoreTitle, scoreValue, playLabel;
     @FXML
-    ImageView pauseImage, homeImage, playImage, reviveImage, restartImage;
-
-    public void loseGame() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("gameOverScreen.fxml"));
-        Scene scene = new Scene(root);
-
-        Stage gameOvereStage = new Stage();
-        gameOvereStage.setTitle("COLOR SWITCH");
-        //gameOvereStage.initStyle(StageStyle.UTILITY);
-        gameOvereStage.initModality(Modality.APPLICATION_MODAL);
-        gameOvereStage.setScene(scene);
-        gameOvereStage.setResizable(false);
-        gameOvereStage.show();
-    }
+    ImageView pauseImage, homeImage, playImage;
 
     public void pauseGame() throws IOException {
         System.out.println("Paused!");
@@ -53,22 +40,10 @@ public class GameScreenController {
         screen.close();
     }
 
-    public void newGame() {
-        System.out.println("New Game!");
-        Stage screen = (Stage) restartImage.getScene().getWindow();
-        screen.close();
-    }
-
     public void saveGame() throws IOException {
         Stage screen = (Stage) homeImage.getScene().getWindow();
         screen.close();
         HomeScreen.serialise();
-    }
-
-    public void revive() {
-        System.out.println("Revived!");
-        Stage screen = (Stage) reviveImage.getScene().getWindow();
-        screen.close();
     }
 
     public void jump() {

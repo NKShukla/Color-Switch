@@ -9,11 +9,12 @@ import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
 public class HexagonObstacle extends PolygonObstacle{
-    private final Line[] lines;
-    private final Timeline[][] animation;
-    protected final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
+    private Line[] lines;
+    private Timeline[][] animation;
 
     HexagonObstacle(float[] pos, float[] dim, double dur, double xAngle) {
+        setPosition(pos);
+        setDimensions(dim);
         lines = new Line[6];
         animation = new Timeline[6][4];
 
@@ -32,12 +33,12 @@ public class HexagonObstacle extends PolygonObstacle{
         lines[4] = new Line(vertices[4][0], vertices[4][1], vertices[4][2], vertices[4][3]);
         lines[5] = new Line(vertices[5][0], vertices[5][1], vertices[5][2], vertices[5][3]);
 
-        lines[0].setStroke(colors[0]);
-        lines[1].setStroke(colors[1]);
-        lines[2].setStroke(colors[2]);
-        lines[3].setStroke(colors[0]);
-        lines[4].setStroke(colors[1]);
-        lines[5].setStroke(colors[3]);
+        lines[0].setStroke(GameScreen.colors[0]);
+        lines[1].setStroke(GameScreen.colors[1]);
+        lines[2].setStroke(GameScreen.colors[2]);
+        lines[3].setStroke(GameScreen.colors[0]);
+        lines[4].setStroke(GameScreen.colors[1]);
+        lines[5].setStroke(GameScreen.colors[3]);
 
         for(int i = 0; i < 6; i++) {
             lines[i].setFill(Color.TRANSPARENT);
@@ -84,6 +85,13 @@ public class HexagonObstacle extends PolygonObstacle{
             animation[i][2].setCycleCount(javafx.animation.Animation.INDEFINITE);
             animation[i][3].setCycleCount(javafx.animation.Animation.INDEFINITE);
         }
+    }
+
+    public HexagonObstacle clone() {
+        HexagonObstacle hexagonObstacle = (HexagonObstacle) super.clone();
+        hexagonObstacle.lines = this.lines.clone();
+        hexagonObstacle.animation = this.animation.clone();
+        return hexagonObstacle;
     }
 
     public Line[] getParts() {

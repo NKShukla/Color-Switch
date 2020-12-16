@@ -9,11 +9,12 @@ import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
 public class OctagonObstacle extends PolygonObstacle{
-    private final Line[] lines;
-    private final Timeline[][] animation;
-    protected final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
+    private Line[] lines;
+    private Timeline[][] animation;
 
     OctagonObstacle(float[] pos, float[] dim, double dur, double xAngle) {
+        setPosition(pos);
+        setDimensions(dim);
         lines = new Line[8];
         animation = new Timeline[8][4];
 
@@ -38,7 +39,7 @@ public class OctagonObstacle extends PolygonObstacle{
 
         for(int i = 0; i < 8; i++) {
             lines[i].setFill(Color.TRANSPARENT);
-            lines[i].setStroke(colors[i%4]);
+            lines[i].setStroke(GameScreen.colors[i%4]);
             lines[i].setStrokeWidth(10.0);
 
             animation[i][0] = new Timeline(
@@ -90,6 +91,13 @@ public class OctagonObstacle extends PolygonObstacle{
             animation[i][2].setCycleCount(javafx.animation.Animation.INDEFINITE);
             animation[i][3].setCycleCount(javafx.animation.Animation.INDEFINITE);
         }
+    }
+
+    public OctagonObstacle clone() {
+        OctagonObstacle octagonObstacle = (OctagonObstacle) super.clone();
+        octagonObstacle.lines = this.lines.clone();
+        octagonObstacle.animation = this.animation.clone();
+        return octagonObstacle;
     }
 
     public Line[] getParts() {

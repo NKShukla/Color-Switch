@@ -1,7 +1,6 @@
 package sample;
 
 import javafx.animation.AnimationTimer;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,13 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -34,10 +28,7 @@ public class
     @FXML
     TextField nameTextField;
 
-    protected final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
-    public static volatile boolean collision = false;
-
-    public void addPlayer() throws IOException, InterruptedException {
+    public void addPlayer() throws IOException {
         errorLabel.setVisible(false);
         System.out.println("Submitted!");
         Stage playerScreen = (Stage) nameTextField.getScene().getWindow();
@@ -50,6 +41,7 @@ public class
         if (HomeScreen.playerList.containsKey(name)) {
             System.out.println("Player Existed!");
             HomeScreen.currentPlayer = HomeScreen.playerList.get(name);
+            HomeScreen.currentPlayer.getScreen().setPlayerController(this);
 
             AnchorPane rootAnchor = FXMLLoader.load(getClass().getResource("newGamePopUp.fxml"));
             Scene scene = new Scene(rootAnchor);
@@ -65,6 +57,7 @@ public class
             System.out.println("New Player Created: " + name);
             HomeScreen.currentPlayer = new Player(name);
             HomeScreen.playerList.put(name, HomeScreen.currentPlayer);
+            HomeScreen.currentPlayer.getScreen().setPlayerController(this);
             playerScreen.close();
             continueGame();
         }
@@ -76,9 +69,10 @@ public class
         playerScreen.close();
     }
 
-    public void continueGame() throws IOException, InterruptedException {
+    public void continueGame() throws IOException {
         GameScreen gameScreen = HomeScreen.currentPlayer.getScreen();
         AnchorPane rootAnchor = FXMLLoader.load(getClass().getResource("gameScreen.fxml"));
+
         Scene scene = new Scene(rootAnchor);
         Stage gameStage = new Stage();
         gameStage.setTitle("COLOR SWITCH");
@@ -94,41 +88,6 @@ public class
         ArrayList<ColorSwitcher> colorSwitchers = gameScreen.getColorSwitchers();
         ArrayList<Star> stars = gameScreen.getStars();
 
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-
-                    case SPACE:
-                        ball.setCenterY(ball.getCenterY() - 20);
-                }
-            while(colorSwitchers.get(0).getBall().intersects(ball.getBall().getBoundsInLocal()) && !colorSwitchers.get(0).getIntersected()) {
-                colorSwitchers.get(0).disappear();
-
-                colorSwitchers.get(0).setIntersected(true);
-
-                Random rand1 = new Random();
-                int index = rand1.nextInt(4);
-
-                ball.getBall().setFill(colors[index]);
-            }
-
-            while(ball.getBall().getBoundsInParent().intersects(stars.get(0).getStar().getBoundsInParent()) && !stars.get(0).getIntersected()) {
-
-                stars.get(0).disappear();
-
-                stars.get(0).setIntersected(true);
-
-                System.out.println("INTERSECTED WITH A STAR");
-
-                System.out.println(currentPlayer.getScore());
-
-                currentPlayer.increaseScore();
-
-                System.out.println(currentPlayer.getScore());
-            }
-        }});
-
         Obstacle nextObstacle = obstacleList.get(rand.nextInt(obstacleList.size()));
         nextObstacle.move();
         rootAnchor.getChildren().addAll(nextObstacle.getParts());
@@ -136,28 +95,38 @@ public class
         rootAnchor.getChildren().add(colorSwitchers.get(0).getBall());
         rootAnchor.getChildren().add(stars.get(0).getStar());
 
-        AnimationTimer gameTimer = new GameTimer(nextObstacle, ball);
-        gameTimer.start();
-        AnimationTimer losingTimer = new AnimationTimer() {
-            @Override
-            public void handle(long l) {
-                if (collision) {
-                    try {
-                        gameScreen.loseGame();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    finally {
-                        stop();
-                    }
-                }
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                ball.setCenterY(ball.getCenterY() - 20);
             }
-        };
+        });
+
+        gameScreen.setGameTimer(new GameTimer(gameScreen, nextObstacle, null, rootAnchor));
+        AnimationTimer gameTimer = gameScreen.getGameTimer();
+        gameTimer.start();
+
+        gameScreen.setLosingTimer(new AnimationTimer() {
+              @Override
+              public void handle(long l) {
+                  if (gameScreen.isCollision()) {
+                      try {
+                          gameScreen.loseGame();
+                      } catch (IOException e) {
+                          e.printStackTrace();
+                      }
+                      finally {
+                          stop();
+                      }
+                  }
+              }
+        });
+        AnimationTimer losingTimer = gameScreen.getLosingTimer();
         losingTimer.start();
     }
 
-    public void restartGame() throws IOException, InterruptedException {
+    public void restartGame() throws IOException {
         HomeScreen.currentPlayer.newGame();
+        HomeScreen.currentPlayer.getScreen().setPlayerController(this);
         continueGame();
     }
 }

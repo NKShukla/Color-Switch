@@ -11,6 +11,8 @@ public class ColorSwitcher extends GameElements implements Animation{
     private boolean intersected = false;
 
     ColorSwitcher(float[] pos, float[] dim) {
+        setPosition(pos);
+        setDimensions(dim);
         ball = new Circle(pos[0], pos[1], dim[0]);
         ball.setFill(Color.WHITE);
     }
@@ -32,5 +34,9 @@ public class ColorSwitcher extends GameElements implements Animation{
     @Override
     public void disappear() {
         ball.setVisible(false);
+    }
+
+    public ColorSwitcher clone() {
+        return (ColorSwitcher) super.clone();
     }
 }

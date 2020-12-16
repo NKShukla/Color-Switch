@@ -8,18 +8,20 @@ import javafx.scene.shape.ArcType;
 import javafx.util.Duration;
 
 public class EllipseObstacle extends Obstacle{
-    private final Arc[] arcs;
-    private final Timeline[] animation;
-    protected final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
+    private Arc[] arcs;
+    private Timeline[] animation;
 
     EllipseObstacle(float[] pos, float[] dim, double dur, double xAngle) {
+        setPosition(pos);
+        setDimensions(dim);
+
         arcs = new Arc[4];
         animation = new Timeline[4];
 
         for(int i = 0; i < 4; i++) {
             arcs[i] = new Arc(pos[0],pos[1],dim[0],dim[1],Math.toDegrees(xAngle+i*Math.PI/2),Math.PI*dim[0]/2);
             arcs[i].setFill(Color.TRANSPARENT);
-            arcs[i].setStroke(colors[i]);
+            arcs[i].setStroke(GameScreen.colors[i]);
             arcs[i].setType(ArcType.OPEN);
             arcs[i].setStrokeWidth(10.0);
 
@@ -29,6 +31,13 @@ public class EllipseObstacle extends Obstacle{
             );
             animation[i].setCycleCount(Animation.INDEFINITE);
         }
+    }
+
+    public EllipseObstacle clone() {
+        EllipseObstacle ellipseObstacle = (EllipseObstacle) super.clone();
+        ellipseObstacle.arcs = this.arcs.clone();
+        ellipseObstacle.animation = this.animation.clone();
+        return ellipseObstacle;
     }
 
     public Arc[] getParts() {

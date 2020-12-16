@@ -9,11 +9,12 @@ import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
 public class OneDLineObstacle extends AbstractLineObstacle{
-    private final Line[] lines;
-    private final Timeline[][] animation;
-    protected final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
+    private Line[] lines;
+    private Timeline[][] animation;
 
     OneDLineObstacle(float[] pos, float[] dim, double dur, double xAngle) {
+        setPosition(pos);
+        setDimensions(dim);
         lines = new Line[4];
         animation = new Timeline[6][4];
 
@@ -35,7 +36,7 @@ public class OneDLineObstacle extends AbstractLineObstacle{
         for(int i = 0; i < 4; i++) {
             lines[i].setFill(Color.TRANSPARENT);
             lines[i].setStrokeWidth(10.0);
-            lines[i].setStroke(colors[i]);
+            lines[i].setStroke(GameScreen.colors[i]);
 
             animation[i][0] = new Timeline(
                     new KeyFrame(Duration.ZERO, new KeyValue(lines[i].startXProperty(), vertices[i][0], Interpolator.LINEAR)),
@@ -62,6 +63,13 @@ public class OneDLineObstacle extends AbstractLineObstacle{
             animation[i][2].setCycleCount(javafx.animation.Animation.INDEFINITE);
             animation[i][3].setCycleCount(javafx.animation.Animation.INDEFINITE);
         }
+    }
+
+    public OneDLineObstacle clone() {
+        OneDLineObstacle oneDLineObstacle = (OneDLineObstacle) super.clone();
+        oneDLineObstacle.lines = this.lines.clone();
+        oneDLineObstacle.animation = this.animation.clone();
+        return oneDLineObstacle;
     }
 
     public Line[] getParts() {

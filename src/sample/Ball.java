@@ -1,21 +1,15 @@
 package sample;
 
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 
-public class Ball extends GameElements implements Animation{
+public class Ball extends GameElements{
     private double JUMP_VALUE;
-    private boolean fall;
     private double fallSpeed;
     private double jumpSpeed;
     private transient Circle ball;
@@ -68,17 +62,8 @@ public class Ball extends GameElements implements Animation{
         return ball;
     }
 
-    public boolean isFalling() {
-        return fall;
-    }
-
     public void jump() {
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(ball.centerYProperty(), ball.getCenterY(), Interpolator.LINEAR)),
-                new KeyFrame(Duration.seconds(1), new KeyValue(ball.centerYProperty(), ball.getCenterY()+20, Interpolator.LINEAR))
-        );
-        timeline.setCycleCount(1);
-        timeline.play();
+        ball.setCenterY(ball.getCenterY() - 20);
     }
 
     public void setFallSpeed(double xSpeed) {
@@ -94,14 +79,5 @@ public class Ball extends GameElements implements Animation{
     }
     public void setCenterY(double y){
         ball.setCenterY(y);
-    }
-
-    public Ball clone() {
-        return (Ball) super.clone();
-    }
-
-    @Override
-    public void disappear() {
-
     }
 }

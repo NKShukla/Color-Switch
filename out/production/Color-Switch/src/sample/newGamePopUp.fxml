@@ -18,7 +18,7 @@
             <Font name="Corbel" size="15.0" />
          </font>
       </Label>
-      <ImageView fitHeight="47.0" fitWidth="68.0" layoutX="74.0" layoutY="78.0" onMouseClicked="#continueGame" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="47.0" fitWidth="68.0" layoutX="74.0" layoutY="78.0" onMouseClicked="#resumeGame" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/yes.png" />
          </image>

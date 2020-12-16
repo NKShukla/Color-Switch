@@ -73,14 +73,14 @@ public class TwoDLineObstacle extends AbstractLineObstacle{
 
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.defaultWriteObject();
-        oos.writeObject(animation[0][0].getCycleDuration().toSeconds());
+        oos.writeObject(animation[0][0].getCycleDuration().toSeconds()-2);
     }
 
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
         ois.defaultReadObject();
+        double dur = (double) ois.readObject();
         float[] pos = getPosition();
         float[] dim = getDimensions();
-        double dur = (double) ois.readObject();
 
         lines = new Line[4];
         animation = new Timeline[4][4];
@@ -136,13 +136,6 @@ public class TwoDLineObstacle extends AbstractLineObstacle{
         }
     }
 
-    public TwoDLineObstacle clone() {
-        TwoDLineObstacle twoDLineObstacle = (TwoDLineObstacle) super.clone();
-        twoDLineObstacle.lines = this.lines.clone();
-        twoDLineObstacle.animation = this.animation.clone();
-        return twoDLineObstacle;
-    }
-
     public Line[] getParts() {
         return lines;
     }
@@ -151,5 +144,11 @@ public class TwoDLineObstacle extends AbstractLineObstacle{
         for(int i = 0; i < 4; i++)
             for(int j = 0; j < 4; j++)
                 animation[i][j].play();
+    }
+
+    public void stop() {
+        for(int i = 0; i < 4; i++)
+            for(int j = 0; j < 4; j++)
+                animation[i][j].pause();
     }
 }

@@ -62,10 +62,6 @@ public class Star extends GameElements implements Animation{
         intersected = status;
     }
 
-    public Star clone() {
-        return (Star) super.clone();
-    }
-
     @Override
     public void disappear() {
         getStar().setVisible(false);

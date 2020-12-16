@@ -18,12 +18,13 @@ public class EllipseObstacle extends Obstacle{
     EllipseObstacle(float[] pos, float[] dim, double dur, double xAngle) {
         setPosition(pos);
         setDimensions(dim);
+        setAngle(xAngle);
 
         arcs = new Arc[4];
         animation = new Timeline[4];
 
         for(int i = 0; i < 4; i++) {
-            arcs[i] = new Arc(pos[0],pos[1],dim[0],dim[1],Math.toDegrees(xAngle+i*Math.PI/2),Math.PI*dim[0]/2);
+            arcs[i] = new Arc(pos[0],pos[1],dim[0],dim[1],Math.toDegrees(getAngle()+i*Math.PI/2),Math.PI*dim[0]/2);
             arcs[i].setFill(Color.TRANSPARENT);
             arcs[i].setStroke(GameScreen.colors[i]);
             arcs[i].setType(ArcType.OPEN);
@@ -39,22 +40,20 @@ public class EllipseObstacle extends Obstacle{
 
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.defaultWriteObject();
-        oos.writeObject(animation[0].getCycleDuration().toSeconds());
-        oos.writeObject(arcs[0].getStartAngle());
+        oos.writeObject(animation[0].getCycleDuration().toSeconds()-2);
     }
 
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
         ois.defaultReadObject();
+        double dur = (double) ois.readObject();
         float[] pos = getPosition();
         float[] dim = getDimensions();
-        double dur = (double) ois.readObject();
-        double xAngle = (double) ois.readObject();
 
         arcs = new Arc[4];
         animation = new Timeline[4];
 
         for(int i = 0; i < 4; i++) {
-            arcs[i] = new Arc(pos[0],pos[1],dim[0],dim[1],Math.toDegrees(xAngle+i*Math.PI/2),Math.PI*dim[0]/2);
+            arcs[i] = new Arc(pos[0],pos[1],dim[0],dim[1],Math.toDegrees(getAngle()+i*Math.PI/2),Math.PI*dim[0]/2);
             arcs[i].setFill(Color.TRANSPARENT);
             arcs[i].setStroke(GameScreen.colors[i]);
             arcs[i].setType(ArcType.OPEN);
@@ -68,13 +67,6 @@ public class EllipseObstacle extends Obstacle{
         }
     }
 
-    public EllipseObstacle clone() {
-        EllipseObstacle ellipseObstacle = (EllipseObstacle) super.clone();
-        ellipseObstacle.arcs = this.arcs.clone();
-        ellipseObstacle.animation = this.animation.clone();
-        return ellipseObstacle;
-    }
-
     public Arc[] getParts() {
         return arcs;
     }
@@ -82,5 +74,10 @@ public class EllipseObstacle extends Obstacle{
     public void move() {
         for(int i = 0; i < 4; i++)
             animation[i].play();
+    }
+
+    public void stop() {
+        for(int i = 0; i < 4; i++)
+            animation[i].pause();
     }
 }

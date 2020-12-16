@@ -53,8 +53,4 @@ public class ColorSwitcher extends GameElements implements Animation{
     public void disappear() {
         ball.setVisible(false);
     }
-
-    public ColorSwitcher clone() {
-        return (ColorSwitcher) super.clone();
-    }
 }

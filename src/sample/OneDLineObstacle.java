@@ -71,14 +71,14 @@ public class OneDLineObstacle extends AbstractLineObstacle{
 
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.defaultWriteObject();
-        oos.writeObject(animation[0][0].getCycleDuration().toSeconds());
+        oos.writeObject(animation[0][0].getCycleDuration().toSeconds()-2);
     }
 
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
         ois.defaultReadObject();
+        double dur = (double) ois.readObject();
         float[] pos = getPosition();
         float[] dim = getDimensions();
-        double dur = (double) ois.readObject();
 
         lines = new Line[4];
         animation = new Timeline[6][4];
@@ -130,13 +130,6 @@ public class OneDLineObstacle extends AbstractLineObstacle{
         }
     }
 
-    public OneDLineObstacle clone() {
-        OneDLineObstacle oneDLineObstacle = (OneDLineObstacle) super.clone();
-        oneDLineObstacle.lines = this.lines.clone();
-        oneDLineObstacle.animation = this.animation.clone();
-        return oneDLineObstacle;
-    }
-
     public Line[] getParts() {
         return lines;
     }
@@ -145,5 +138,11 @@ public class OneDLineObstacle extends AbstractLineObstacle{
         for(int i = 0; i < 4; i++)
             for(int j = 0; j < 4; j++)
                 animation[i][j].play();
+    }
+
+    public void stop() {
+        for(int i = 0; i < 4; i++)
+            for(int j = 0; j < 4; j++)
+                animation[i][j].pause();
     }
 }

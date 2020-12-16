@@ -21,6 +21,7 @@ public class GameScreenController {
     ImageView pauseImage, homeImage, playImage;
 
     public void pauseGame() throws IOException {
+        HomeScreen.currentPlayer.getScreen().pauseAnimation();
         System.out.println("Paused!");
         Parent root = FXMLLoader.load(getClass().getResource("pauseScreen.fxml"));
         Scene scene = new Scene(root);
@@ -35,6 +36,7 @@ public class GameScreenController {
     }
 
     public void playGame() {
+        HomeScreen.currentPlayer.getScreen().playAnimation();
         System.out.println("Play!");
         Stage screen = (Stage) playImage.getScene().getWindow();
         screen.close();
@@ -43,6 +45,7 @@ public class GameScreenController {
     public void saveGame() throws IOException {
         Stage screen = (Stage) homeImage.getScene().getWindow();
         screen.close();
+        //HomeScreen.currentPlayer.getScreen().getGameStage().close();
         HomeScreen.serialise();
     }
 
@@ -51,7 +54,11 @@ public class GameScreenController {
         //ball.jump();
     }
 
-    public void setScoreValue(long scoreValue) {
-        this.scoreValue.setText(Long.valueOf(scoreValue).toString());
+    public void setScoreValue(int scoreValue) {
+        this.scoreValue.setText(Integer.valueOf(scoreValue).toString());
+    }
+
+    public int getScoreValue() {
+        return Integer.parseInt(this.scoreValue.getText());
     }
 }

@@ -22,19 +22,11 @@ public class Player implements Serializable {
         return gameScreen;
     }
 
-    public long getScore() {
-        return score;
+    public int getScore() {
+        return gameScreen.getScore();
     }
 
     public void newGame() throws IOException {
         gameScreen = new GameScreen();
-    }
-
-    public void pauseGame() {
-
-    }
-
-    public void increaseScore() {
-        score++;
     }
 }

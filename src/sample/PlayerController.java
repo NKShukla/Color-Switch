@@ -71,7 +71,59 @@ public class
 
     public void continueGame() throws IOException {
         GameScreen gameScreen = HomeScreen.currentPlayer.getScreen();
-        AnchorPane rootAnchor = FXMLLoader.load(getClass().getResource("gameScreen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("gameScreen.fxml"));
+        AnchorPane rootAnchor = loader.load();
+
+        Scene scene = new Scene(rootAnchor);
+        Stage gameStage = new Stage();
+        gameStage.setTitle("COLOR SWITCH");
+        //gameStage.initStyle(StageStyle.UTILITY);
+        gameStage.initModality(Modality.APPLICATION_MODAL);
+        gameStage.setScene(scene);
+        gameStage.setResizable(false);
+        gameStage.show();
+        gameScreen.setGameStage(gameStage);
+
+        Random rand = new Random();
+        ArrayList<Obstacle> obstacleList = gameScreen.getObstaclesList();
+        Ball ball = gameScreen.getBall();
+        ArrayList<ColorSwitcher> colorSwitchers = gameScreen.getColorSwitchers();
+        ArrayList<Star> stars = gameScreen.getStars();
+
+        Obstacle nextObstacle = obstacleList.get(rand.nextInt(obstacleList.size()));
+        rootAnchor.getChildren().addAll(nextObstacle.getParts());
+        rootAnchor.getChildren().add(ball.getBall());
+        rootAnchor.getChildren().add(colorSwitchers.get(0).getBall());
+        rootAnchor.getChildren().add(stars.get(0).getStar());
+
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                ball.jump();
+            }
+        });
+
+        gameScreen.setGameTimer(new GameTimer(gameScreen, nextObstacle, null, rootAnchor, loader.getController()));
+        GameTimer gameTimer = gameScreen.getGameTimer();
+        gameTimer.start();
+
+        AnimationTimer losingTimer = gameScreen.getLosingTimer();
+        losingTimer.start();
+        gameScreen.playAnimation();
+    }
+
+    public void restartGame() throws IOException {
+        HomeScreen.currentPlayer.getScreen().getGameStage().close();
+        HomeScreen.currentPlayer.newGame();
+        HomeScreen.currentPlayer.getScreen().setPlayerController(this);
+        continueGame();
+    }
+
+    public void resumeGame() throws IOException {
+        GameScreen gameScreen = HomeScreen.currentPlayer.getScreen();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("gameScreen.fxml"));
+        AnchorPane rootAnchor = loader.load();
+        GameScreenController gameScreenController = loader.getController();
+        gameScreenController.setScoreValue(gameScreen.getScore());
 
         Scene scene = new Scene(rootAnchor);
         Stage gameStage = new Stage();
@@ -82,14 +134,11 @@ public class
         gameStage.setResizable(false);
         gameStage.show();
 
-        Random rand = new Random();
-        ArrayList<Obstacle> obstacleList = gameScreen.getObstaclesList();
         Ball ball = gameScreen.getBall();
         ArrayList<ColorSwitcher> colorSwitchers = gameScreen.getColorSwitchers();
         ArrayList<Star> stars = gameScreen.getStars();
 
-        Obstacle nextObstacle = obstacleList.get(rand.nextInt(obstacleList.size()));
-        nextObstacle.move();
+        Obstacle nextObstacle = gameScreen.getNextObstacle();
         rootAnchor.getChildren().addAll(nextObstacle.getParts());
         rootAnchor.getChildren().add(ball.getBall());
         rootAnchor.getChildren().add(colorSwitchers.get(0).getBall());
@@ -97,36 +146,14 @@ public class
 
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE) {
-                ball.setCenterY(ball.getCenterY() - 20);
+                ball.jump();
             }
         });
 
-        gameScreen.setGameTimer(new GameTimer(gameScreen, nextObstacle, null, rootAnchor));
+        gameScreen.getLosingTimer().start();
+        gameScreen.setGameTimer(new GameTimer(gameScreen, nextObstacle, null, rootAnchor, loader.getController()));
         AnimationTimer gameTimer = gameScreen.getGameTimer();
         gameTimer.start();
-
-        gameScreen.setLosingTimer(new AnimationTimer() {
-              @Override
-              public void handle(long l) {
-                  if (gameScreen.isCollision()) {
-                      try {
-                          gameScreen.loseGame();
-                      } catch (IOException e) {
-                          e.printStackTrace();
-                      }
-                      finally {
-                          stop();
-                      }
-                  }
-              }
-        });
-        AnimationTimer losingTimer = gameScreen.getLosingTimer();
-        losingTimer.start();
-    }
-
-    public void restartGame() throws IOException {
-        HomeScreen.currentPlayer.newGame();
-        HomeScreen.currentPlayer.getScreen().setPlayerController(this);
-        continueGame();
+        gameScreen.playAnimation();
     }
 }

@@ -14,15 +14,16 @@ abstract public class Obstacle extends GameElements {
         return angle;
     }
 
+    public void setAngle(double angle) {
+        this.angle = angle;
+    }
+
     public void setDuration(double d) {
         this.duration = d;
     }
 
-    public Obstacle clone() {
-        return (Obstacle)super.clone();
-    }
-
     public abstract void move();
+    public abstract void stop();
 
     public abstract Node[] getParts();
 }

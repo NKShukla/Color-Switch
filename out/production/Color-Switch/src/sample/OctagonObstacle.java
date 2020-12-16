@@ -99,14 +99,14 @@ public class OctagonObstacle extends PolygonObstacle{
 
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.defaultWriteObject();
-        oos.writeObject(animation[0][0].getCycleDuration().toSeconds());
+        oos.writeObject(animation[0][0].getCycleDuration().toSeconds()-2);
     }
 
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
         ois.defaultReadObject();
+        double dur = (double) ois.readObject();
         float[] pos = getPosition();
         float[] dim = getDimensions();
-        double dur = (double) ois.readObject();
 
         lines = new Line[8];
         animation = new Timeline[8][4];
@@ -186,13 +186,6 @@ public class OctagonObstacle extends PolygonObstacle{
         }
     }
 
-    public OctagonObstacle clone() {
-        OctagonObstacle octagonObstacle = (OctagonObstacle) super.clone();
-        octagonObstacle.lines = this.lines.clone();
-        octagonObstacle.animation = this.animation.clone();
-        return octagonObstacle;
-    }
-
     public Line[] getParts() {
         return lines;
     }
@@ -201,5 +194,11 @@ public class OctagonObstacle extends PolygonObstacle{
         for(int i = 0; i < 8; i++)
             for(int j = 0; j < 4; j++)
                 animation[i][j].play();
+    }
+
+    public void stop() {
+        for(int i = 0; i < 8; i++)
+            for(int j = 0; j < 4; j++)
+                animation[i][j].pause();
     }
 }

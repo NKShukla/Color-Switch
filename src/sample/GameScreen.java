@@ -21,22 +21,21 @@ import java.util.Random;
 public class GameScreen implements Serializable {
     private int starScore;
     private final Level currentLevel;
-    private final int[] SCREEN_SIZE;
     private final Ball ball;
     private final ArrayList<Obstacle> obstacleList = new ArrayList<>();
     private final ArrayList<ColorSwitcher> colorSwitchers = new ArrayList<>();
     private final ArrayList<Star> stars = new ArrayList<>();
+    private Obstacle nextObstacle, prevObstacle;
     private boolean collision = false;
-    private transient AnimationTimer gameTimer, losingTimer;
+    private transient AnimationTimer losingTimer;
+    private transient GameTimer gameTimer;
     private transient PlayerController playerController;
-    private transient Timeline tl;
+    private transient Timeline ballTimer;
+    private transient Stage gameStage;
     public static final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
 
     GameScreen() throws IOException {
-        SCREEN_SIZE = new int[]{500, 500}; // will use it later or maybe not
         currentLevel = new Level(1); //will use in future
-        //scoreValue.setText(Long.toString(HomeScreen.currentPlayer.getScore()));
-
         ball = new Ball(new float[]{250, 300}, new float[]{7.5f}, 0.0, 0.0);
         colorSwitchers.add(new ColorSwitcher(new float[]{250.0f, 100.0f}, new float[]{10.0f}));
         stars.add(new Star(new float[]{237.0f, -112.0f}, new float[]{25.0f}, 1));
@@ -57,33 +56,13 @@ public class GameScreen implements Serializable {
         obstacleList.add(obstacle6);
         obstacleList.add(obstacle7);
 
-        tl = new Timeline();
-        tl.setCycleCount(javafx.animation.Animation.INDEFINITE);
+        ballTimer = new Timeline();
+        ballTimer.setCycleCount(javafx.animation.Animation.INDEFINITE);
         KeyFrame moveBall = new KeyFrame(Duration.seconds(0.1), event -> {
             ball.setCenterY(ball.getCenterY() + 3);
         });
-
-        tl.getKeyFrames().add(moveBall);
-        tl.play();
-    }
-
-    private void writeObject(ObjectOutputStream oos) throws IOException {
-        oos.defaultWriteObject();
-    }
-
-    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
-        ois.defaultReadObject();
-        tl = new Timeline();
-        tl.setCycleCount(javafx.animation.Animation.INDEFINITE);
-        KeyFrame moveBall = new KeyFrame(Duration.seconds(0.1), event -> {
-            ball.setCenterY(ball.getCenterY() + 3);
-        });
-
-        tl.getKeyFrames().add(moveBall);
-        tl.play();
-
-        //gameTimer = new GameTimer(this, nextObstacle, null, rootAnchor);
-        //gameTimer.start();
+        ballTimer.getKeyFrames().add(moveBall);
+        ballTimer.play();
 
         losingTimer = new AnimationTimer() {
             @Override
@@ -100,20 +79,56 @@ public class GameScreen implements Serializable {
                 }
             }
         };
-        losingTimer.start();
+    }
 
+    private void writeObject(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
+        ois.defaultReadObject();
+        ballTimer = new Timeline();
+        ballTimer.setCycleCount(javafx.animation.Animation.INDEFINITE);
+        KeyFrame moveBall = new KeyFrame(Duration.seconds(0.1), event -> {
+            ball.setCenterY(ball.getCenterY() + 3);
+        });
+        ballTimer.getKeyFrames().add(moveBall);
+
+        losingTimer = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                if (isCollision()) {
+                    try {
+                        loseGame();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    finally {
+                        stop();
+                    }
+                }
+            }
+        };
     }
 
     public int getScore() {
         return starScore;
     }
 
-    public Level getLevel() {
-        return currentLevel;
+    public void setStarScore(int starScore) {
+        this.starScore = starScore;
     }
 
-    public int[] getScreenSize() {
-        return SCREEN_SIZE;
+    public Stage getGameStage() {
+        return gameStage;
+    }
+
+    public void setGameStage(Stage gameStage) {
+        this.gameStage = gameStage;
+    }
+
+    public Level getLevel() {
+        return currentLevel;
     }
 
     public Ball getBall() {
@@ -121,7 +136,17 @@ public class GameScreen implements Serializable {
     }
 
     public void pauseAnimation() {
+        ballTimer.stop();
+        gameTimer.getNextObstacle().stop();
+        if(gameTimer.getPrevObstacle() != null)
+            gameTimer.getPrevObstacle().stop();
+    }
 
+    public void playAnimation() {
+        ballTimer.play();
+        gameTimer.getNextObstacle().move();
+        if(gameTimer.getPrevObstacle() != null)
+            gameTimer.getPrevObstacle().move();
     }
 
     public ArrayList<Obstacle> getObstaclesList() {
@@ -140,16 +165,12 @@ public class GameScreen implements Serializable {
         this.collision = collision;
     }
 
-    public void setGameTimer(AnimationTimer gameTimer) {
+    public void setGameTimer(GameTimer gameTimer) {
         this.gameTimer = gameTimer;
     }
 
-    public AnimationTimer getGameTimer() {
+    public GameTimer getGameTimer() {
         return gameTimer;
-    }
-
-    public void setLosingTimer(AnimationTimer losingTimer) {
-        this.losingTimer = losingTimer;
     }
 
     public AnimationTimer getLosingTimer() {
@@ -158,6 +179,10 @@ public class GameScreen implements Serializable {
 
     public void setPlayerController(PlayerController playerController) {
         this.playerController = playerController;
+    }
+
+    public Obstacle getNextObstacle() {
+        return nextObstacle;
     }
 
     public PlayerController getPlayerController() {
@@ -175,15 +200,22 @@ public class GameScreen implements Serializable {
     public Obstacle nextObstacle() {
         Random rand = new Random();
         switch (rand.nextInt(7)+1) {
-            case 1: return new CircleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 4.0, 0.0);
-            case 2: return new RectangleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 3.0, 0.0);
-            case 3: return new EllipseObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f, 50.0f}, 5.0, 0.0);
-            case 4: return new HexagonObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 2.0, 0.0);
-            case 5: return new OneDLineObstacle(new float[]{250.0f, -65.0f}, new float[]{50.0f}, 3.0, 0.0);
-            case 6: return new TwoDLineObstacle(new float[]{220.0f, -100.0f}, new float[]{50.0f}, 2.0, 0.0);
-            case 7: return new OctagonObstacle(new float[]{250.0f, -100.0f}, new float[]{90.0f}, 1.0, 0.0);
-            default: return null;
+            case 1: nextObstacle = new CircleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 4.0, 0.0);
+                break;
+            case 2: nextObstacle = new RectangleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 3.0, 0.0);
+                break;
+            case 3: nextObstacle = new EllipseObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f, 50.0f}, 5.0, 0.0);
+                break;
+            case 4: nextObstacle = new HexagonObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 2.0, 0.0);
+                break;
+            case 5: nextObstacle = new OneDLineObstacle(new float[]{250.0f, -65.0f}, new float[]{50.0f}, 3.0, 0.0);
+                break;
+            case 6: nextObstacle = new TwoDLineObstacle(new float[]{220.0f, -100.0f}, new float[]{50.0f}, 2.0, 0.0);
+                break;
+            case 7: nextObstacle = new OctagonObstacle(new float[]{250.0f, -100.0f}, new float[]{90.0f}, 1.0, 0.0);
+                break;
         }
+        return nextObstacle;
     }
 
     public void loseGame() throws IOException {

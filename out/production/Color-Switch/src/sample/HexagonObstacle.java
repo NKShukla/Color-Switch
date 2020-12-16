@@ -93,14 +93,14 @@ public class HexagonObstacle extends PolygonObstacle{
 
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.defaultWriteObject();
-        oos.writeObject(animation[0][0].getCycleDuration().toSeconds());
+        oos.writeObject(animation[0][0].getCycleDuration().toSeconds()-2);
     }
 
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {
         ois.defaultReadObject();
+        double dur = (double) ois.readObject();
         float[] pos = getPosition();
         float[] dim = getDimensions();
-        double dur = (double) ois.readObject();
 
         lines = new Line[6];
         animation = new Timeline[6][4];
@@ -174,13 +174,6 @@ public class HexagonObstacle extends PolygonObstacle{
         }
     }
 
-    public HexagonObstacle clone() {
-        HexagonObstacle hexagonObstacle = (HexagonObstacle) super.clone();
-        hexagonObstacle.lines = this.lines.clone();
-        hexagonObstacle.animation = this.animation.clone();
-        return hexagonObstacle;
-    }
-
     public Line[] getParts() {
         return lines;
     }
@@ -189,5 +182,11 @@ public class HexagonObstacle extends PolygonObstacle{
         for(int i = 0; i < 6; i++)
             for(int j = 0; j < 4; j++)
                 animation[i][j].play();
+    }
+
+    public void stop() {
+        for(int i = 0; i < 6; i++)
+            for(int j = 0; j < 4; j++)
+                animation[i][j].pause();
     }
 }

@@ -8,26 +8,25 @@ import javafx.scene.shape.Shape;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class GameTimer extends AnimationTimer {
     private final GameScreen gameScreen;
-    private final ArrayList<Obstacle> obstacleList;
     private final Ball ball;
     private final ArrayList<ColorSwitcher> colorSwitchers;
     private final ArrayList<Star> stars;
     private Obstacle nextObstacle, prevObstacle;
-    private transient final AnchorPane rootAnchor;
+    private final transient AnchorPane rootAnchor;
+    private final transient GameScreenController gameScreenController;
 
-    GameTimer(GameScreen gameScreen, Obstacle nextObstacle, Obstacle prevObstacle, AnchorPane rootAnchor) {
+    GameTimer(GameScreen gameScreen, Obstacle nextObstacle, Obstacle prevObstacle, AnchorPane rootAnchor, GameScreenController gameScreenController) {
         this.gameScreen = gameScreen;
-        this.obstacleList = gameScreen.getObstaclesList();
         this.ball = gameScreen.getBall();
         this.colorSwitchers = gameScreen.getColorSwitchers();
         this.stars = gameScreen.getStars();
         this.nextObstacle = nextObstacle;
         this.prevObstacle = prevObstacle;
         this.rootAnchor = rootAnchor;
+        this.gameScreenController = gameScreenController;
     }
 
     @Override
@@ -40,7 +39,6 @@ public class GameTimer extends AnimationTimer {
         Shape[] intersect = new Shape[parts1.length];
         Circle switcherCircle = colorSwitchers.get(0).getBall();
         Node starNode =  stars.get(0).getStar();
-        Random rand = new Random();
 
         for(int i = 0; i < parts1.length; i++) {
             intersect[i] = Shape.intersect(parts1[i], ballCircle);
@@ -48,6 +46,8 @@ public class GameTimer extends AnimationTimer {
                 if(parts1[i].getStroke() != ballCircle.getFill()) {
                     System.out.println("Collide!");
                     gameScreen.setCollision(true);
+                    gameScreen.pauseAnimation();
+                    gameScreen.getBall().setCenterY(parts1[i].getLayoutY() + 100);
                     stop();
                 }
             }
@@ -61,6 +61,8 @@ public class GameTimer extends AnimationTimer {
                     if(parts2[i].getStroke() != ballCircle.getFill()) {
                         System.out.println("Collide!");
                         gameScreen.setCollision(true);
+                        gameScreen.pauseAnimation();
+                        gameScreen.getBall().setCenterY(gameScreen.getBall().getCenterY() - 100);
                         stop();
                     }
                 }
@@ -71,13 +73,15 @@ public class GameTimer extends AnimationTimer {
             System.out.println("Intersected with a colorSwitcher");
             colorSwitchers.get(0).disappear();
             colorSwitchers.get(0).setIntersected(true);
-            ballCircle.setFill(GameScreen.colors[rand.nextInt(4)]);
+            ballCircle.setFill(GameScreen.colors[colorSwitchers.get(0).pickColor()]);
         }
 
         if(ballCircle.getBoundsInParent().intersects(starNode.getBoundsInParent()) && !stars.get(0).getIntersected()) {
             System.out.println("Intersected with a star");
             stars.get(0).disappear();
             stars.get(0).setIntersected(true);
+            gameScreenController.setScoreValue(gameScreenController.getScoreValue() + 1);
+            gameScreen.setStarScore(gameScreenController.getScoreValue());
         }
 
         if(ballCircle.getCenterY() <= 200.0) {
@@ -130,5 +134,17 @@ public class GameTimer extends AnimationTimer {
             rootAnchor.getChildren().add(stars.get(0).getStar());
             rootAnchor.getChildren().addAll(nextObstacle.getParts());
         }
+    }
+
+    public Obstacle getNextObstacle() {
+        return nextObstacle;
+    }
+
+    public Obstacle getPrevObstacle() {
+        return prevObstacle;
+    }
+
+    public GameScreenController getGameScreenController() {
+        return gameScreenController;
     }
 }

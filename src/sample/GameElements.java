@@ -2,7 +2,7 @@ package sample;
 
 import java.io.Serializable;
 
-public class GameElements implements Serializable, Cloneable {
+public class GameElements implements Serializable {
     private float[] position;
     private float[] dimensions;
 
@@ -20,18 +20,5 @@ public class GameElements implements Serializable, Cloneable {
 
     public void setDimensions(float[] dim) {
         this.dimensions = dim;
-    }
-
-    public GameElements clone() {
-        GameElements gameElement = null;
-        try{
-            gameElement = (GameElements)super.clone();
-            gameElement.position = this.position.clone();
-            gameElement.dimensions = this.dimensions.clone();
-        }
-        catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return gameElement;
     }
 }

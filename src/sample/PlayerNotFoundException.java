@@ -11,7 +11,7 @@ import java.io.IOException;
 public class PlayerNotFoundException extends Throwable {
     PlayerNotFoundException(String msg) throws IOException {
         super(msg);
-        AnchorPane rootAnchor = FXMLLoader.load(getClass().getResource("newGamePopUp.fxml"));
+        AnchorPane rootAnchor = FXMLLoader.load(getClass().getResource("playerNotFoundException.fxml"));
         Scene scene = new Scene(rootAnchor);
         Stage exceptionStage = new Stage();
         exceptionStage.setTitle("WARNING");

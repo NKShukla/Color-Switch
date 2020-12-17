@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class
     PlayerController extends  HomeScreen {
@@ -28,7 +27,7 @@ public class
     @FXML
     TextField nameTextField;
 
-    public void addPlayer() throws IOException {
+    public void addPlayer() throws IOException, ClassNotFoundException {
         errorLabel.setVisible(false);
         System.out.println("Submitted!");
         Stage playerScreen = (Stage) nameTextField.getScene().getWindow();
@@ -84,13 +83,11 @@ public class
         gameStage.show();
         gameScreen.setGameStage(gameStage);
 
-        Random rand = new Random();
-        ArrayList<Obstacle> obstacleList = gameScreen.getObstaclesList();
         Ball ball = gameScreen.getBall();
         ArrayList<ColorSwitcher> colorSwitchers = gameScreen.getColorSwitchers();
         ArrayList<Star> stars = gameScreen.getStars();
 
-        Obstacle nextObstacle = obstacleList.get(rand.nextInt(obstacleList.size()));
+        Obstacle nextObstacle = gameScreen.nextObstacle();
         rootAnchor.getChildren().addAll(nextObstacle.getParts());
         rootAnchor.getChildren().add(ball.getBall());
         rootAnchor.getChildren().add(colorSwitchers.get(0).getBall());
@@ -111,7 +108,7 @@ public class
         gameScreen.playAnimation();
     }
 
-    public void restartGame() throws IOException {
+    public void restartGame() throws IOException, ClassNotFoundException {
         HomeScreen.currentPlayer.getScreen().getGameStage().close();
         HomeScreen.currentPlayer.newGame();
         HomeScreen.currentPlayer.getScreen().setPlayerController(this);

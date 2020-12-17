@@ -8,7 +8,7 @@ public class Player implements Serializable {
     private GameScreen gameScreen;
     private long score;
 
-    Player(String name) throws IOException {
+    Player(String name) throws IOException, ClassNotFoundException {
         this.NAME = name;
         gameScreen = new GameScreen();
         score = 0;
@@ -26,7 +26,7 @@ public class Player implements Serializable {
         return gameScreen.getScore();
     }
 
-    public void newGame() throws IOException {
+    public void newGame() throws IOException, ClassNotFoundException {
         gameScreen = new GameScreen();
     }
 }

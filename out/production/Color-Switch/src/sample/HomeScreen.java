@@ -121,7 +121,7 @@ public class HomeScreen extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        deserialise();
+        //deserialise();
 
         Parent root = FXMLLoader.load(getClass().getResource("homeScreen.fxml"));
         Scene scene = new Scene(root);

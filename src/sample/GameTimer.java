@@ -80,8 +80,11 @@ public class GameTimer extends AnimationTimer {
             System.out.println("Intersected with a star");
             stars.get(0).disappear();
             stars.get(0).setIntersected(true);
-            gameScreenController.setScoreValue(gameScreenController.getScoreValue() + 1);
-            gameScreen.setStarScore(gameScreenController.getScoreValue());
+            try {
+                gameScreen.setStarScore(gameScreenController.getScoreValue() + 1);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
         if(ballCircle.getCenterY() <= 200.0) {

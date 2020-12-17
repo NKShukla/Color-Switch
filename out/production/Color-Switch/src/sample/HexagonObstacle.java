@@ -93,7 +93,7 @@ public class HexagonObstacle extends PolygonObstacle{
 
     private void writeObject(ObjectOutputStream oos) throws IOException {
         oos.defaultWriteObject();
-        oos.writeObject(animation[0][0].getCycleDuration().toSeconds()-2);
+        oos.writeObject(animation[0][0].getCycleDuration().toSeconds()-4);
     }
 
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {

@@ -30,6 +30,8 @@ public class ColorSwitcher extends GameElements implements Animation{
         float[] dim = getDimensions();
         ball = new Circle(pos[0], pos[1], dim[0]);
         ball.setFill(Color.WHITE);
+        if(intersected)
+            disappear();
     }
 
     public Circle getBall() {

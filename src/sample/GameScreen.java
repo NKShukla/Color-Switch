@@ -20,11 +20,11 @@ import java.util.Random;
 
 public class GameScreen implements Serializable {
     private int starScore;
-    private final Level currentLevel;
+    private Level currentLevel;
     private final Ball ball;
-    private final ArrayList<Obstacle> obstacleList = new ArrayList<>();
     private final ArrayList<ColorSwitcher> colorSwitchers = new ArrayList<>();
     private final ArrayList<Star> stars = new ArrayList<>();
+    private ArrayList<Obstacle> obstacleList = new ArrayList<>();
     private Obstacle nextObstacle, prevObstacle;
     private boolean collision = false;
     private transient AnimationTimer losingTimer;
@@ -34,31 +34,42 @@ public class GameScreen implements Serializable {
     private transient Stage gameStage;
     public static final Color[] colors = new Color[] {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
 
-    GameScreen() throws IOException {
+    GameScreen() throws IOException, ClassNotFoundException {
         currentLevel = new Level(1); //will use in future
         ball = new Ball(new float[]{250, 300}, new float[]{7.5f}, 0.0, 0.0);
         colorSwitchers.add(new ColorSwitcher(new float[]{250.0f, 100.0f}, new float[]{10.0f}));
         stars.add(new Star(new float[]{237.0f, -112.0f}, new float[]{25.0f}, 1));
 
-        CircleObstacle obstacle1 = new CircleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 4.0, 0.0);
-        RectangleObstacle obstacle2 = new RectangleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 3.0, 0.0);
-        EllipseObstacle obstacle3 = new EllipseObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f, 50.0f}, 5.0, 0.0);
-        HexagonObstacle obstacle4 = new HexagonObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 2.0, 0.0);
-        OneDLineObstacle obstacle5 = new OneDLineObstacle(new float[]{250.0f, -65.0f}, new float[]{50.0f}, 3.0, 0.0);
-        TwoDLineObstacle obstacle6 = new TwoDLineObstacle(new float[]{220.0f, -100.0f}, new float[]{50.0f}, 2.0, 0.0);
-        OctagonObstacle obstacle7 = new OctagonObstacle(new float[]{250.0f, -100.0f}, new float[]{90.0f}, 1.0, 0.0);
-
-        obstacleList.add(obstacle1);
-        obstacleList.add(obstacle2);
-        obstacleList.add(obstacle3);
-        obstacleList.add(obstacle4);
-        obstacleList.add(obstacle5);
-        obstacleList.add(obstacle6);
-        obstacleList.add(obstacle7);
+        double dur = currentLevel.getObstacleDuration();
+        for(String obstacleName: currentLevel.getAvailableObstacles()) {
+            switch (obstacleName) {
+                case "CircleObstacle":
+                    obstacleList.add(new CircleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 0.8 * dur, 0.0));
+                    break;
+                case "RectangleObstacle":
+                    obstacleList.add(new RectangleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 0.6 * dur, 0.0));
+                    break;
+                case "EllipseObstacle":
+                    obstacleList.add(new EllipseObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f, 50.0f}, dur, 0.0));
+                    break;
+                case "HexagonObstacle":
+                    obstacleList.add(new HexagonObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 0.4 * dur, 0.0));
+                    break;
+                case "OneDLineObstacle":
+                    obstacleList.add(new OneDLineObstacle(new float[]{250.0f, -65.0f}, new float[]{50.0f}, 0.6 * dur, 0.0));
+                    break;
+                case "TwoDLineObstacle":
+                    obstacleList.add(new TwoDLineObstacle(new float[]{220.0f, -100.0f}, new float[]{50.0f}, 0.4 * dur, 0.0));
+                    break;
+                case "OctagonObstacle":
+                    new OctagonObstacle(new float[]{250.0f, -100.0f}, new float[]{90.0f}, 0.2 * dur, 0.0);
+                    break;
+            }
+        }
 
         ballTimer = new Timeline();
         ballTimer.setCycleCount(javafx.animation.Animation.INDEFINITE);
-        KeyFrame moveBall = new KeyFrame(Duration.seconds(0.1), event -> {
+        KeyFrame moveBall = new KeyFrame(Duration.seconds(currentLevel.getFallTime()), event -> {
             ball.setCenterY(ball.getCenterY() + 3);
         });
         ballTimer.getKeyFrames().add(moveBall);
@@ -89,7 +100,7 @@ public class GameScreen implements Serializable {
         ois.defaultReadObject();
         ballTimer = new Timeline();
         ballTimer.setCycleCount(javafx.animation.Animation.INDEFINITE);
-        KeyFrame moveBall = new KeyFrame(Duration.seconds(0.1), event -> {
+        KeyFrame moveBall = new KeyFrame(Duration.seconds(currentLevel.getFallTime()), event -> {
             ball.setCenterY(ball.getCenterY() + 3);
         });
         ballTimer.getKeyFrames().add(moveBall);
@@ -115,8 +126,11 @@ public class GameScreen implements Serializable {
         return starScore;
     }
 
-    public void setStarScore(int starScore) {
+    public void setStarScore(int starScore) throws ClassNotFoundException {
         this.starScore = starScore;
+        this.gameTimer.getGameScreenController().setScoreValue(starScore);
+        if(starScore >= currentLevel.getLevelNumber()*5)
+            updateLevel();
     }
 
     public Stage getGameStage() {
@@ -147,10 +161,6 @@ public class GameScreen implements Serializable {
         gameTimer.getNextObstacle().move();
         if(gameTimer.getPrevObstacle() != null)
             gameTimer.getPrevObstacle().move();
-    }
-
-    public ArrayList<Obstacle> getObstaclesList() {
-        return obstacleList;
     }
 
     public ArrayList<ColorSwitcher> getColorSwitchers() {
@@ -193,27 +203,64 @@ public class GameScreen implements Serializable {
         return collision;
     }
 
-    public void updateLevel() {
+    private void updateLevel() throws ClassNotFoundException {
+        currentLevel = new Level(starScore/5+1);
 
+        double dur = currentLevel.getObstacleDuration();
+        obstacleList = new ArrayList<>();
+        for(String obstacleName: currentLevel.getAvailableObstacles()) {
+            switch (obstacleName) {
+                case "CircleObstacle":
+                    obstacleList.add(new CircleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 0.8 * dur, 0.0));
+                    break;
+                case "RectangleObstacle":
+                    obstacleList.add(new RectangleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 0.6 * dur, 0.0));
+                    break;
+                case "EllipseObstacle":
+                    obstacleList.add(new EllipseObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f, 50.0f}, dur, 0.0));
+                    break;
+                case "HexagonObstacle":
+                    obstacleList.add(new HexagonObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 0.4 * dur, 0.0));
+                    break;
+                case "OneDLineObstacle":
+                    obstacleList.add(new OneDLineObstacle(new float[]{250.0f, -65.0f}, new float[]{50.0f}, 0.6 * dur, 0.0));
+                    break;
+                case "TwoDLineObstacle":
+                    obstacleList.add(new TwoDLineObstacle(new float[]{220.0f, -100.0f}, new float[]{50.0f}, 0.4 * dur, 0.0));
+                    break;
+                case "OctagonObstacle":
+                    new OctagonObstacle(new float[]{250.0f, -100.0f}, new float[]{90.0f}, 0.2 * dur, 0.0);
+                    break;
+            }
+        }
+
+        ballTimer = new Timeline();
+        ballTimer.setCycleCount(javafx.animation.Animation.INDEFINITE);
+        KeyFrame moveBall = new KeyFrame(Duration.seconds(currentLevel.getFallTime()), event -> {
+            ball.setCenterY(ball.getCenterY() + 3);
+        });
+        ballTimer.getKeyFrames().add(moveBall);
+        ballTimer.play();
     }
 
     public Obstacle nextObstacle() {
         Random rand = new Random();
-        switch (rand.nextInt(7)+1) {
-            case 1: nextObstacle = new CircleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 4.0, 0.0);
-                break;
-            case 2: nextObstacle = new RectangleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 3.0, 0.0);
-                break;
-            case 3: nextObstacle = new EllipseObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f, 50.0f}, 5.0, 0.0);
-                break;
-            case 4: nextObstacle = new HexagonObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 2.0, 0.0);
-                break;
-            case 5: nextObstacle = new OneDLineObstacle(new float[]{250.0f, -65.0f}, new float[]{50.0f}, 3.0, 0.0);
-                break;
-            case 6: nextObstacle = new TwoDLineObstacle(new float[]{220.0f, -100.0f}, new float[]{50.0f}, 2.0, 0.0);
-                break;
-            case 7: nextObstacle = new OctagonObstacle(new float[]{250.0f, -100.0f}, new float[]{90.0f}, 1.0, 0.0);
-                break;
+        nextObstacle = obstacleList.get(rand.nextInt(obstacleList.size()));
+        double dur = currentLevel.getObstacleDuration();
+        if (CircleObstacle.class.equals(nextObstacle.getClass())) {
+            nextObstacle = new CircleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 0.8 * dur, 0.0);
+        } else if (RectangleObstacle.class.equals(nextObstacle.getClass())) {
+            nextObstacle = new RectangleObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 0.6 * dur, 0.0);
+        } else if (EllipseObstacle.class.equals(nextObstacle.getClass())) {
+            nextObstacle = new EllipseObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f, 50.0f}, dur, 0.0);
+        } else if (HexagonObstacle.class.equals(nextObstacle.getClass())) {
+            nextObstacle = new HexagonObstacle(new float[]{250.0f, -100.0f}, new float[]{70.0f}, 0.4 * dur, 0.0);
+        } else if (OneDLineObstacle.class.equals(nextObstacle.getClass())) {
+            nextObstacle = new OneDLineObstacle(new float[]{250.0f, -65.0f}, new float[]{50.0f}, 0.6 * dur, 0.0);
+        } else if (TwoDLineObstacle.class.equals(nextObstacle.getClass())) {
+            nextObstacle = new TwoDLineObstacle(new float[]{220.0f, -100.0f}, new float[]{50.0f}, 0.4 * dur, 0.0);
+        } else if (OctagonObstacle.class.equals(nextObstacle.getClass())) {
+            nextObstacle = new OctagonObstacle(new float[]{250.0f, -100.0f}, new float[]{90.0f}, 0.2 * dur, 0.0);
         }
         return nextObstacle;
     }

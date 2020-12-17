@@ -10,23 +10,31 @@ public class GameOverController {
     @FXML
     ImageView homeImage, reviveImage, restartImage;
 
-    public void newGame() throws IOException {
+    public void newGame() throws IOException, ClassNotFoundException {
         System.out.println("New Game!");
         Stage screen = (Stage) restartImage.getScene().getWindow();
         screen.close();
-        HomeScreen.currentPlayer.getScreen().setCollision(false);
-        HomeScreen.currentPlayer.getScreen().playAnimation();
-        HomeScreen.currentPlayer.getScreen().getPlayerController().restartGame();
+        GameScreen gameScreen = HomeScreen.currentPlayer.getScreen();
+        gameScreen.setCollision(false);
+        gameScreen.playAnimation();
+        gameScreen.getPlayerController().restartGame();
     }
 
-    public void revive() {
-        System.out.println("Revived!");
-        Stage screen = (Stage) reviveImage.getScene().getWindow();
-        screen.close();
-        HomeScreen.currentPlayer.getScreen().setCollision(false);
-        HomeScreen.currentPlayer.getScreen().playAnimation();
-        HomeScreen.currentPlayer.getScreen().getLosingTimer().start();
-        HomeScreen.currentPlayer.getScreen().getGameTimer().start();
+    public void revive() throws ClassNotFoundException {
+        GameScreen gameScreen = HomeScreen.currentPlayer.getScreen();
+        if(gameScreen.getScore() >= gameScreen.getLevel().getRevivalScore()){
+            System.out.println("Revived!");
+            Stage screen = (Stage) reviveImage.getScene().getWindow();
+            screen.close();
+            gameScreen.setStarScore(gameScreen.getScore()-gameScreen.getLevel().getRevivalScore());
+            gameScreen.setCollision(false);
+            gameScreen.playAnimation();
+            gameScreen.getLosingTimer().start();
+            gameScreen.getGameTimer().start();
+        }
+        else{
+            System.out.println("Insufficient Score Exception!");
+        }
     }
 
     public void saveGame() throws IOException {

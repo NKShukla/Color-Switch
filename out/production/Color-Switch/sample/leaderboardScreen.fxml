@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.LeaderboardController">
+    <children>
+        <ImageView fitHeight="500.0" fitWidth="500.0" pickOnBounds="true">
+            <image>
+                <Image url="@Images/bg.jpg" />
+            </image>
+        </ImageView>
+      <VBox layoutX="62.0" layoutY="73.0" prefHeight="381.0" prefWidth="376.0">
+         <children>
+            <Text fill="#fab425" strokeType="OUTSIDE" strokeWidth="0.0" text="LEADERBOARD" textAlignment="JUSTIFY" wrappingWidth="375.37890625">
+               <font>
+                  <Font size="55.0" />
+               </font>
+            </Text>
+            <ListView fx:id="leaderboard" prefHeight="309.0" prefWidth="376.0" />
+         </children>
+      </VBox>
+        <ImageView fx:id="backImage" fitHeight="50.0" fitWidth="115.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#backHome" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@Images/back.png" />
+            </image>
+        </ImageView>
+    </children>
+
+</AnchorPane>

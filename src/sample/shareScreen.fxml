@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ShareScreenController">
+    <children>
+        <ImageView fitHeight="500.0" fitWidth="500.0" pickOnBounds="true">
+            <image>
+                <Image url="@Images/bg.jpg" />
+            </image>
+        </ImageView>
+      <Text fontSmoothingType="LCD" layoutX="298.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Whatsapp" wrappingWidth="125.0">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+        <ImageView fx:id="backImage" fitHeight="50.0" fitWidth="115.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#backHome" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@Images/back.png" />
+            </image>
+        </ImageView>
+      <Text fontSmoothingType="LCD" layoutX="91.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instagram" wrappingWidth="107.0">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="125.0" fitWidth="179.0" layoutX="64.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/fb.png" />
+         </image>
+      </ImageView>
+      <Text fontSmoothingType="LCD" layoutX="307.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Twitter" wrappingWidth="107.0">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="107.0" fitWidth="125.0" layoutX="73.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/insta.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="135.0" fitWidth="150.0" layoutX="271.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/twitter.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="107.0" fitWidth="150.0" layoutX="285.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/whatsapp.png" />
+         </image>
+      </ImageView>
+      <Text fontSmoothingType="LCD" layoutX="91.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FaceBook" wrappingWidth="72.13671875">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+    </children>
+
+</AnchorPane>

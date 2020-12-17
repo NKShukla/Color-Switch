@@ -36,7 +36,7 @@ public class Level implements Serializable {
         }
         else{
             this.obstacleDuration = 6 - levelNumber;
-            this.ballFallTime = 0.12 - levelNumber * 0.02;
+            this.ballFallTime = 0.11 - levelNumber * 0.01;
         }
     }
 

@@ -23,7 +23,7 @@
             <InnerShadow height="255.0" radius="127.0" width="255.0" />
          </effect>
       </ImageView>
-      <Label fx:id="title1" layoutX="76.0" layoutY="32.0" prefHeight="70.0" prefWidth="198.0" text="COLOR">
+      <Label fx:id="title1" layoutX="76.0" layoutY="79.0" prefHeight="72.0" prefWidth="198.0" text="COLOR">
          <font>
             <Font name="Gabriola" size="74.0" />
          </font>
@@ -35,7 +35,7 @@
                </stops>
             </LinearGradient>
          </textFill></Label>
-      <Label fx:id="title2" layoutX="153.0" layoutY="77.0" prefHeight="91.0" prefWidth="215.0" text="SWITCH">
+      <Label fx:id="title2" layoutX="153.0" layoutY="134.0" prefHeight="34.0" prefWidth="215.0" text="SWITCH">
          <font>
             <Font name="Gabriola" size="74.0" />
          </font>
@@ -68,11 +68,6 @@
          <image>
             <Image url="@Images/trophy.png" />
          </image></ImageView>
-      <ImageView fx:id="settingImage" fitHeight="47.0" fitWidth="52.0" layoutX="319.0" layoutY="9.0" onMouseClicked="#settings" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/setting.png" />
-         </image>
-      </ImageView>
       <ImageView fx:id="helpImage" fitHeight="51.0" fitWidth="65.0" layoutX="379.0" layoutY="7.0" onMouseClicked="#help" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/help.png" />
@@ -81,6 +76,16 @@
       <ImageView fx:id="shareImage" fitHeight="50.0" fitWidth="61.0" layoutX="436.0" layoutY="8.0" onMouseClicked="#share" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/share.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="unmuteImage" fitHeight="34.0" fitWidth="34.0" layoutX="6.0" layoutY="11.0" onMouseClicked="#unmute" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/unmute.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="muteImage" fitHeight="34.0" fitWidth="36.0" layoutX="57.0" layoutY="11.0" onMouseClicked="#mute" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/mute.png" />
          </image>
       </ImageView>
    </children>

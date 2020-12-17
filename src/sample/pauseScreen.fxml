@@ -18,12 +18,22 @@
             <Image url="@Images/home.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="playImage" fitHeight="167.0" fitWidth="153.0" layoutX="174.0" layoutY="157.0" onMouseClicked="#playGame" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="playImage" fitHeight="167.0" fitWidth="153.0" layoutX="60.0" layoutY="157.0" onMouseClicked="#playGame" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/play.png" />
          </image>
       </ImageView>
-      <Label fx:id="playLabel" layoutX="208.0" layoutY="310.0" text="PLAY">
+      <ImageView fx:id="saveImage" fitHeight="167.0" fitWidth="153.0" layoutX="265.0" layoutY="157.0" onMouseClicked="#saveGame" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/save.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="playLabel" layoutX="75.0" layoutY="310.0" text="PLAY">
+         <font>
+            <Font name="Gabriola" size="49.0" />
+         </font>
+      </Label>
+      <Label fx:id="saveLabel" layoutX="275.0" layoutY="310.0" text="SAVE">
          <font>
             <Font name="Gabriola" size="49.0" />
          </font>

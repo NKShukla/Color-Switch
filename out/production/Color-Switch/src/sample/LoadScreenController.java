@@ -79,6 +79,7 @@ public class LoadScreenController extends HomeScreen implements Initializable {
         gameStage.setScene(scene);
         gameStage.setResizable(false);
         gameStage.show();
+        gameScreen.setGameStage(gameStage);
 
         Ball ball = gameScreen.getBall();
         ArrayList<ColorSwitcher> colorSwitchers = gameScreen.getColorSwitchers();

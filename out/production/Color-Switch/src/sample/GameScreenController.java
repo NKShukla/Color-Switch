@@ -45,9 +45,17 @@ public class GameScreenController {
     public void saveGame() throws IOException {
         Stage screen = (Stage) homeImage.getScene().getWindow();
         screen.close();
-        //HomeScreen.currentPlayer.getScreen().getGameStage().close();
         HomeScreen.currentPlayer.setScore(HomeScreen.currentPlayer.getScreen().getScore());
         HomeScreen.serialise();
+        HomeScreen.currentPlayer.getScreen().playAnimation();
+        System.out.println("Saved!");
+    }
+
+    public void backToHome() {
+        Stage screen = (Stage) homeImage.getScene().getWindow();
+        screen.close();
+        HomeScreen.currentPlayer.getScreen().getGameStage().close();
+        System.out.println("Back to Home!");
     }
 
     public void jump() {

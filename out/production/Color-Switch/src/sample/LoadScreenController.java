@@ -44,7 +44,7 @@ public class LoadScreenController extends HomeScreen implements Initializable {
         playerScreen.close();
     }
 
-    public void loadPlayer() throws IOException {
+    public void loadPlayer() throws IOException, PlayerNotFoundException {
         errorLabel.setVisible(false);
         System.out.println("Entered!");
         Stage playerScreen = (Stage) nameTextField.getScene().getWindow();
@@ -55,7 +55,7 @@ public class LoadScreenController extends HomeScreen implements Initializable {
             return;
         }
         if (!HomeScreen.playerList.containsKey(name)) {
-            System.out.println("Player Not Found Exception!");
+            throw new PlayerNotFoundException("Player Not Found Exception!");
         }else {
             System.out.println("Player Existed: " + name);
             HomeScreen.currentPlayer = HomeScreen.playerList.get(name);
@@ -105,8 +105,8 @@ public class LoadScreenController extends HomeScreen implements Initializable {
 
     private void loadData(){
         list.removeAll();
-        for (Map.Entry mapElement : playerList.entrySet()) {
-            String name = (String)mapElement.getKey();
+        for (Map.Entry<String, Player> mapElement : playerList.entrySet()) {
+            String name = mapElement.getKey();
             list.add(name);
         }
         savedGamesList.setItems(list);

@@ -21,7 +21,7 @@ public class GameOverController {
         gameScreen.getPlayerController().restartGame();
     }
 
-    public void revive() throws ClassNotFoundException {
+    public void revive() throws ClassNotFoundException, IOException, InsufficientScoreException {
         GameScreen gameScreen = HomeScreen.currentPlayer.getScreen();
         if(gameScreen.getScore() >= gameScreen.getLevel().getRevivalScore()){
             System.out.println("Revived!");
@@ -34,7 +34,7 @@ public class GameOverController {
             gameScreen.getGameTimer().start();
         }
         else{
-            System.out.println("Insufficient Score Exception!");
+            throw new InsufficientScoreException("Insufficient Score Exception!");
         }
     }
 

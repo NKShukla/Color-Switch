@@ -40,10 +40,12 @@ public class LeaderboardController extends HomeScreen implements Initializable {
         dataList.sort(Comparator.comparingInt(o -> -1 * o.getValue().getScore()));
 
         list.removeAll();
+        int count = 1;
         for (Map.Entry<String, Player> mapElement : dataList) {
             String name = mapElement.getKey();
             Player player = mapElement.getValue();
-            list.add(name + " - " + player.getScore());
+            list.add(count + ") " + name + " - " + player.getScore());
+            count++;
         }
         leaderboard.setItems(list);
     }

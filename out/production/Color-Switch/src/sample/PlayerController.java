@@ -48,17 +48,8 @@ public class
             System.out.println("Player Existed!");
             HomeScreen.currentPlayer = HomeScreen.playerList.get(name);
             HomeScreen.currentPlayer.getScreen().setPlayerController(this);
-
-            AnchorPane rootAnchor = FXMLLoader.load(getClass().getResource("newGamePopUp.fxml"));
-            Scene scene = new Scene(rootAnchor);
-            Stage popUpStage = new Stage();
-            popUpStage.setTitle("ATTENTION");
-            //gameStage.initStyle(StageStyle.UTILITY);
-            popUpStage.initModality(Modality.APPLICATION_MODAL);
-            popUpStage.setScene(scene);
-            popUpStage.setResizable(false);
-            popUpStage.show();
             playerScreen.close();
+            restartGame();
         } else {
             System.out.println("New Player Created: " + name);
             HomeScreen.currentPlayer = new Player(name);

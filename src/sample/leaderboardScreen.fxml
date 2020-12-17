@@ -17,9 +17,9 @@
         </ImageView>
       <VBox layoutX="62.0" layoutY="73.0" prefHeight="381.0" prefWidth="376.0">
          <children>
-            <Text fill="#fab425" strokeType="OUTSIDE" strokeWidth="0.0" text="LEADERBOARD" textAlignment="JUSTIFY" wrappingWidth="375.37890625">
+            <Text fill="#006633" strokeType="OUTSIDE" strokeWidth="0.0" text="LEADERBOARD" textAlignment="CENTER" wrappingWidth="375.37890625">
                <font>
-                  <Font size="55.0" />
+                  <Font name="HP Simplified" size="55.0" />
                </font>
             </Text>
             <ListView fx:id="leaderboard" prefHeight="309.0" prefWidth="376.0" />

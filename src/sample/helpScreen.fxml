@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -7,97 +8,105 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ShareScreenController">
+<AnchorPane prefHeight="500.0" prefWidth="514.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ShareScreenController">
     <children>
-        <ImageView fitHeight="500.0" fitWidth="500.0" layoutX="4.0" layoutY="2.0" pickOnBounds="true">
-            <image>
-                <Image url="@Images/bg.jpg" />
-            </image>
-        </ImageView>
-        <ImageView fx:id="backImage" fitHeight="50.0" fitWidth="115.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#backHome" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@Images/back.png" />
-            </image>
-        </ImageView>
-      <TextArea layoutX="30.0" layoutY="75.0" prefHeight="127.0" prefWidth="455.0" text="WELCOME TO COLOR SWITCH!&#10;&#10;This is a single player infinte game to collect as many points as possible to maximise &#10;your score. &#10;&#10;How to play -&#10;&#10;Use the spacebar button to jump the ball to dodge a obtacle and collect stars. If the &#10;ball collides with the colorwise non matching portion of an obstacle then game ends &#10;but yu caqn revive the ball if there are enough stars available to you. As your points &#10;increase the game level increases and difficult types of obstacles begin to unlock and &#10;the speed of the game increases accordingly. The color Switcher changes picks up a &#10;color randoly and gives it to ball.&#10;You can also save, reload and pause a game.&#10;">
-         <font>
-            <Font name="Berlin Sans FB Demi Bold" size="15.0" />
-         </font>
-      </TextArea>
-      <Text layoutX="163.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GAME ELEMENTS">
-         <font>
-            <Font name="Arial Black" size="17.0" />
-         </font>
-      </Text>
-      <Text layoutX="39.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Obstacles" underline="true">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <ImageView fitHeight="74.0" fitWidth="89.0" layoutX="128.0" layoutY="405.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/ball.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="263.0" layoutY="399.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/ColorSwitcher.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="43.0" fitWidth="89.0" layoutX="366.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/star1.png" />
-         </image>
-      </ImageView>
-      <Text layoutX="163.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ball" underline="true" wrappingWidth="67.59398651123047">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Text>
-      <Text layoutX="240.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color Switcher" underline="true">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Text>
-      <Text layoutX="385.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Star" underline="true" wrappingWidth="34.13671875">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Text>
-      <ImageView fitHeight="67.0" fitWidth="68.0" layoutX="159.0" layoutY="252.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/Obstacle1.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="61.0" fitWidth="77.0" layoutX="258.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/Obstacle2.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="58.0" fitWidth="73.0" layoutX="353.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/Obstacle3.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="67.0" fitWidth="77.0" layoutX="161.0" layoutY="324.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/Obstacle4.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="20.0" fitWidth="116.0" layoutX="19.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/Obstacle5.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="67.0" fitWidth="77.0" layoutX="251.0" layoutY="324.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/Obstacle6.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="67.0" fitWidth="103.0" layoutX="351.0" layoutY="324.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@Images/Obstacle7.png" />
-         </image>
-      </ImageView>
+      <ScrollPane prefHeight="688.0" prefWidth="523.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="675.0" prefWidth="517.0">
+               <children>
+                  <ImageView fitHeight="688.0" fitWidth="523.0" layoutX="3.0" pickOnBounds="true">
+                     <image>
+                        <Image url="@Images/bg.jpg" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="backImage" fitHeight="50.0" fitWidth="115.0" layoutX="17.0" layoutY="14.0" onMouseClicked="#backHome" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/back.png" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="167.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GAME ELEMENTS">
+                     <font>
+                        <Font name="Arial Black" size="17.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="74.0" fitWidth="89.0" layoutX="317.0" layoutY="404.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/ball.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="225.0" layoutY="398.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/ColorSwitcher.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="43.0" fitWidth="89.0" layoutX="88.0" layoutY="402.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/star1.png" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="351.0" layoutY="466.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ball" underline="true" wrappingWidth="67.59398651123047">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="202.0" layoutY="467.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Color Switcher" underline="true">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="99.0" layoutY="466.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Star" underline="true" wrappingWidth="34.13671875">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="67.0" fitWidth="68.0" layoutX="338.0" layoutY="484.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Obstacle1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="61.0" fitWidth="77.0" layoutX="194.0" layoutY="562.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Obstacle2.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="58.0" fitWidth="73.0" layoutX="116.0" layoutY="487.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Obstacle3.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="67.0" fitWidth="77.0" layoutX="353.0" layoutY="559.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Obstacle4.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="20.0" fitWidth="116.0" layoutX="199.0" layoutY="515.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Obstacle5.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="67.0" fitWidth="77.0" layoutX="108.0" layoutY="559.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Obstacle6.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="67.0" fitWidth="103.0" layoutX="272.0" layoutY="559.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/Obstacle7.png" />
+                     </image>
+                  </ImageView>
+                  <TextArea layoutX="16.0" layoutY="77.0" prefHeight="284.0" prefWidth="477.0" text="WELCOME TO COLOR SWITCH!&#10;This is a single player infinte game to collect as many points as &#10;possible to maximise your score. &#10;How to play -&#10;Use the spacebar button to jump the ball to dodge a obtacle and &#10;collect stars. If the ball collides with the colorwise non matching &#10;portion of an obstacle then game ends but you can revive the ball &#10;if there are enough stars available to you. As your points increase &#10;the game level increases and difficult types of obstacles begin to &#10;unlock and the speed of the game increases accordingly. The color &#10;Switcher changes picks up a color randomly and gives it to ball.&#10;You can also save, reload and pause a game.&#10;">
+                     <font>
+                        <Font name="Berlin Sans FB Demi Bold" size="15.0" />
+                     </font>
+                  </TextArea>
+                  <Text layoutX="220.0" layoutY="645.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Obstacles" underline="true">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
     </children>
 </AnchorPane>

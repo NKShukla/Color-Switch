@@ -14,6 +14,7 @@ public class GameOverController {
         System.out.println("New Game!");
         Stage screen = (Stage) restartImage.getScene().getWindow();
         screen.close();
+        HomeScreen.currentPlayer.setScore(HomeScreen.currentPlayer.getScreen().getScore());
         GameScreen gameScreen = HomeScreen.currentPlayer.getScreen();
         gameScreen.setCollision(false);
         gameScreen.playAnimation();
@@ -41,6 +42,7 @@ public class GameOverController {
         Stage screen = (Stage) homeImage.getScene().getWindow();
         screen.close();
         //HomeScreen.currentPlayer.getScreen().getGameStage().close();
+        HomeScreen.currentPlayer.setScore(HomeScreen.currentPlayer.getScreen().getScore());
         HomeScreen.serialise();
     }
 }

@@ -121,43 +121,4 @@ public class
         HomeScreen.currentPlayer.getScreen().setPlayerController(this);
         continueGame();
     }
-
-    public void resumeGame() throws IOException {
-        GameScreen gameScreen = HomeScreen.currentPlayer.getScreen();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("gameScreen.fxml"));
-        AnchorPane rootAnchor = loader.load();
-        GameScreenController gameScreenController = loader.getController();
-        gameScreenController.setScoreValue(gameScreen.getScore());
-
-        Scene scene = new Scene(rootAnchor);
-        Stage gameStage = new Stage();
-        gameStage.setTitle("COLOR SWITCH");
-        //gameStage.initStyle(StageStyle.UTILITY);
-        gameStage.initModality(Modality.APPLICATION_MODAL);
-        gameStage.setScene(scene);
-        gameStage.setResizable(false);
-        gameStage.show();
-
-        Ball ball = gameScreen.getBall();
-        ArrayList<ColorSwitcher> colorSwitchers = gameScreen.getColorSwitchers();
-        ArrayList<Star> stars = gameScreen.getStars();
-
-        Obstacle nextObstacle = gameScreen.getNextObstacle();
-        rootAnchor.getChildren().addAll(nextObstacle.getParts());
-        rootAnchor.getChildren().add(ball.getBall());
-        rootAnchor.getChildren().add(colorSwitchers.get(0).getBall());
-        rootAnchor.getChildren().add(stars.get(0).getStar());
-
-        scene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.SPACE) {
-                ball.jump();
-            }
-        });
-
-        gameScreen.getLosingTimer().start();
-        gameScreen.setGameTimer(new GameTimer(gameScreen, nextObstacle, null, rootAnchor, loader.getController()));
-        AnimationTimer gameTimer = gameScreen.getGameTimer();
-        gameTimer.start();
-        gameScreen.playAnimation();
-    }
 }

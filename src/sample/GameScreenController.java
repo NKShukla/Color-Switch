@@ -46,6 +46,7 @@ public class GameScreenController {
         Stage screen = (Stage) homeImage.getScene().getWindow();
         screen.close();
         //HomeScreen.currentPlayer.getScreen().getGameStage().close();
+        HomeScreen.currentPlayer.setScore(HomeScreen.currentPlayer.getScreen().getScore());
         HomeScreen.serialise();
     }
 

@@ -12,11 +12,11 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class LeaderboardController extends HomeScreen implements Initializable {
 
-    ObservableList list = FXCollections.observableArrayList();
+    ObservableList<String> list = FXCollections.observableArrayList();
 
     @FXML
     ImageView backImage;
@@ -36,9 +36,15 @@ public class LeaderboardController extends HomeScreen implements Initializable {
     }
 
     private void loadData() {
+        List<Map.Entry<String, Player>> dataList = new LinkedList<>(HomeScreen.playerList.entrySet());
+        dataList.sort(Comparator.comparingInt(o -> -1 * o.getValue().getScore()));
+
         list.removeAll();
-        String a = "Abhishek", b = "Naval", c = "Player 3", d = "Player 4";
-        list.addAll(a, b, c, d);
+        for (Map.Entry<String, Player> mapElement : dataList) {
+            String name = mapElement.getKey();
+            Player player = mapElement.getValue();
+            list.add(name + " - " + player.getScore());
+        }
         leaderboard.setItems(list);
     }
 

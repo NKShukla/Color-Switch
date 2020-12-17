@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class Player implements Serializable {
     private final String NAME;
     private GameScreen gameScreen;
-    private long score;
+    private int score;
 
     Player(String name) throws IOException, ClassNotFoundException {
         this.NAME = name;
@@ -23,7 +23,13 @@ public class Player implements Serializable {
     }
 
     public int getScore() {
-        return gameScreen.getScore();
+        return score;
+    }
+
+    public void setScore(int x) {
+        if(score < x) {
+            score = x;
+        }
     }
 
     public void newGame() throws IOException, ClassNotFoundException {

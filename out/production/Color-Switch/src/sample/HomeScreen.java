@@ -68,6 +68,8 @@ public class HomeScreen extends Application {
     }
 
     public void exitGame() throws IOException {
+        if(HomeScreen.currentPlayer!=null)
+            HomeScreen.currentPlayer.setScore(HomeScreen.currentPlayer.getScreen().getScore());
         serialise();
         System.out.println("Exit Game!");
         Platform.exit();
@@ -180,7 +182,7 @@ public class HomeScreen extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //deserialise();
+        deserialise();
 
         Parent root = FXMLLoader.load(getClass().getResource("homeScreen.fxml"));
         Scene scene = new Scene(root);

@@ -18,13 +18,13 @@
                 <Image url="@Images/bg.jpg" />
             </image>
         </ImageView>
-        <TextField fx:id="nameTextField" layoutX="140.0" layoutY="118.0" prefHeight="35.0" prefWidth="222.0" />
-        <Label fx:id="nameLabel" layoutX="106.0" layoutY="70.0" text="ENTER YOUR NAME" textFill="#ac2424">
+        <TextField fx:id="nameTextField" layoutX="140.0" layoutY="93.0" prefHeight="35.0" prefWidth="222.0" />
+        <Label fx:id="nameLabel" layoutX="106.0" layoutY="52.0" text="ENTER YOUR NAME" textFill="#ac2424">
             <font>
                 <Font name="Georgia" size="30.0" />
             </font>
         </Label>
-        <Button fx:id="submitBtn" layoutX="212.0" layoutY="168.0" mnemonicParsing="false" onMouseClicked="#addPlayer" prefHeight="43.0" prefWidth="77.0" text="SUBMIT" textFill="#ac2424">
+        <Button fx:id="submitBtn" layoutX="211.0" layoutY="136.0" mnemonicParsing="false" onMouseClicked="#loadPlayer" prefHeight="43.0" prefWidth="77.0" text="SUBMIT" textFill="#ac2424">
             <font>
                 <Font name="Georgia Bold" size="13.0" />
             </font>
@@ -34,7 +34,7 @@
                 <Image url="@Images/back.png" />
             </image>
         </ImageView>
-        <Label fx:id="errorLabel" contentDisplay="CENTER" layoutX="136.0" layoutY="297.0" lineSpacing="1.0" style="-fx-background-color: BLACK;" text="Invalid Input!!" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true">
+        <Label fx:id="errorLabel" contentDisplay="CENTER" layoutX="131.0" layoutY="183.0" lineSpacing="1.0" prefHeight="59.0" prefWidth="242.0" style="-fx-background-color: BLACK;" text="Invalid Input!!" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true">
             <font>
                 <Font name="Ink Free" size="36.0" />
             </font>
@@ -43,7 +43,7 @@
          <children>
             <ListView fx:id="savedGamesList" prefHeight="199.0" prefWidth="263.0" />
          </children></VBox>
-      <Text fontSmoothingType="LCD" layoutX="172.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Saved Games" textAlignment="CENTER" underline="true">
+      <Text fontSmoothingType="LCD" layoutX="172.0" layoutY="273.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Saved Games" textAlignment="CENTER" underline="true">
          <font>
             <Font name="Arial Black" size="21.0" />
          </font></Text>

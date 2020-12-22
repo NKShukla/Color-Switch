@@ -105,9 +105,9 @@ public class
         losingTimer.start();
         gameScreen.playAnimation();
     }
-
     public void restartGame() throws IOException, ClassNotFoundException {
-        HomeScreen.currentPlayer.getScreen().getGameStage().close();
+        if(HomeScreen.currentPlayer.getScreen().getGameStage() != null)
+            HomeScreen.currentPlayer.getScreen().getGameStage().close();
         HomeScreen.currentPlayer.newGame();
         HomeScreen.currentPlayer.getScreen().setPlayerController(this);
         continueGame();
